@@ -1,0 +1,92 @@
+﻿@using Demo_1_Ecommerce.ViewModels
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";  // Set the layout for the registration view
+}
+
+<div class="main-wrapper">
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
+         style="background:url('@Url.Content("~/admintemplate/assets/images/big/auth-bg.jpg")') no-repeat center center;">
+        <div class="auth-box row text-center">
+            <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url('@Url.Content("~/admintemplate/assets/images/big/3.jpg")');">
+            </div>
+            <div class="col-lg-5 col-md-7 bg-white">
+                <div class="p-3">
+                    <img src="@Url.Content("~/admintemplate/assets/images/big/icon.png")" alt="wrapkit">
+                    <h2 class="mt-3 text-center">Sign Up for Free</h2>
+                    <form asp-action="Register" method="post" class="mt-4">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="Name">Name</label>
+                                    <input class="form-control" id="Name" name="Name" type="text" placeholder="Enter your name" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="Username">Username</label>
+                                    <input class="form-control" id="Username" name="Username" type="text" placeholder="Enter your username" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="Email">Email</label>
+                                    <input class="form-control" id="Email" name="Email" type="email" placeholder="Enter your email address" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="Mobile">Mobile</label>
+                                    <input class="form-control" id="Mobile" name="Mobile" type="text" placeholder="Enter your mobile number" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="Address">Address</label>
+                                    <input class="form-control" id="Address" name="Address" type="text" placeholder="Enter your address" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="PostCode">Post Code</label>
+                                    <input class="form-control" id="PostCode" name="PostCode" type="text" placeholder="Enter your post code" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="Password">Password</label>
+                                    <input class="form-control" id="Password" name="Password" type="password" placeholder="Enter your password" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="ConfirmPassword">Confirm Password</label>
+                                    <input class="form-control" id="ConfirmPassword" name="ConfirmPassword" type="password" placeholder="Confirm your password" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                <button type="submit" class="btn btn-block btn-dark">Sign Up</button>
+                            </div>
+                            <div class="col-lg-12 text-center mt-5">
+                                Already have an account? <a href="@Url.Action("Index")" class="text-danger">Sign In</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
