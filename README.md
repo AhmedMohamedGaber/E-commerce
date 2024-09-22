@@ -6,7 +6,7 @@
 </p>
 
 
-This **E-commerce** project is developed under instruction and provides a fully functional e-commerce platform. It includes features for browsing products, managing a shopping cart, placing orders, and an admin panel for product management.
+This **⚠️⚠️⚠️ E-commerce** project is developed under instruction and provides a fully functional e-commerce platform. It includes features for browsing products, managing a shopping cart, placing orders, and an admin panel for product management.
 
 ## Features
 
@@ -29,7 +29,6 @@ This **E-commerce** project is developed under instruction and provides a fully 
 - **Database**: Microsoft SQL Server
 - **Frontend**: HTML5, CSS3, Bootstrap, JavaScript
 - **Authentication**: Identity Framework (user and role management)
-- **Real-Time Communication**: SignalR
 - **APIs**: Custom APIs for product and category data
 - **Swagger**: Integrated Swagger UI for API documentation and testing
 
