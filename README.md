@@ -1,4 +1,7 @@
-# E-commerce Platform
+# EasyShopper - E-commerce Platform
+
+![logo-shopper1](https://github.com/user-attachments/assets/b8b82e7b-f09d-49e5-b576-73a0e9995db9)![logo-shopper2](https://github.com/user-attachments/assets/b171ea81-4fb1-4f7e-9e60-c95e7bde8a6a)
+
 
 ![Logo](https://github.com/AhmedMohamedGaber/E-commerce/blob/main/logo.png)
 *(Replace this link with your actual logo path)*
