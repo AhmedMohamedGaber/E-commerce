@@ -1,27 +1,27 @@
-# 🌟 EasyShopper - E-commerce Platform
+# 🚧 EasyShopper - E-commerce Platform (Under Development)
 
 <p align="left">
   <img src="https://github.com/user-attachments/assets/b8b82e7b-f09d-49e5-b576-73a0e9995db9" alt="logo-shopper1" width="250"/>
   <img src="https://github.com/user-attachments/assets/b171ea81-4fb1-4f7e-9e60-c95e7bde8a6a" alt="logo-shopper2" width="250"/>
 </p>
 
-⚠️⚠️⚠️ This **E-commerce** project is developed under instruction and provides a fully functional platform for online shopping. It includes features for browsing products, managing a shopping cart, placing orders, and an admin panel for product management.
+⚠️⚠️⚠️ This **E-commerce** project is currently **under development** and construction. It aims to provide a fully functional platform for online shopping, featuring capabilities for browsing products, managing a shopping cart, placing orders, and an admin panel for product management.
 
-## 📦 Features
+## 🚧 Work in Progress
 
-### User Features
+### Planned Features
 - **🔒 User Registration & Login**: Secure sign-up and login process.
-- **🛍️ Product Browsing**: Explore a wide variety of products across multiple categories.
-- **🔍 Search Functionality**: Easily search products by name, category, or description.
-- **🛒 Shopping Cart**: Add products to the cart and adjust quantities as needed.
-- **📜 Order History**: View past orders and track their statuses.
-- **📱 Responsive Design**: Optimized for both desktop and mobile devices.
+- **🛍️ Product Browsing**: A wide variety of products across multiple categories.
+- **🔍 Search Functionality**: Easy product searches by name, category, or description.
+- **🛒 Shopping Cart**: Adding products to the cart with adjustable quantities.
+- **📜 Order History**: Viewing past orders and tracking their statuses.
+- **📱 Responsive Design**: Optimization for desktop and mobile devices.
 
-### Admin Features
-- **📊 Admin Dashboard**: Full control over the product catalog, orders, and categories.
-- **➕ Product Management**: Add, edit, and delete products effortlessly.
-- **📁 Category Management**: Organize products into categories for better navigation.
-- **📦 Order Management**: Track and update the status of customer orders.
+### Upcoming Admin Features
+- **📊 Admin Dashboard**: Control over the product catalog, orders, and categories.
+- **➕ Product Management**: Add, edit, and delete products with ease.
+- **📁 Category Management**: Organize products into categories.
+- **📦 Order Management**: Track and update order statuses.
 
 ## 🔧 Technologies Used
 - **Backend**: ASP.NET Core MVC 8, C#, Entity Framework Core
