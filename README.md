@@ -5,6 +5,8 @@
   <img src="https://github.com/user-attachments/assets/b171ea81-4fb1-4f7e-9e60-c95e7bde8a6a" alt="logo-shopper2" width="250"/>
 </p>
 
+[🔗 EasyShopper Live](http://www.EasyShopper.com)
+
 ⚠️⚠️⚠️ This **E-commerce** project is currently **under development** and construction. It aims to provide a fully functional platform for online shopping, featuring capabilities for browsing products, managing a shopping cart, placing orders, and an admin panel for product management.
 
 ## 🚧 Work in Progress
