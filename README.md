@@ -1,9 +1,11 @@
 # EasyShopper - E-commerce Platform
 
-![logo-shopper1](https://github.com/user-attachments/assets/b8b82e7b-f09d-49e5-b576-73a0e9995db9)![logo-shopper2](https://github.com/user-attachments/assets/b171ea81-4fb1-4f7e-9e60-c95e7bde8a6a)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b8b82e7b-f09d-49e5-b576-73a0e9995db9" alt="logo-shopper1" width="150"/>
+  <img src="https://github.com/user-attachments/assets/b171ea81-4fb1-4f7e-9e60-c95e7bde8a6a" alt="logo-shopper2" width="150"/>
+</p>
 
-
-![Logo](https://github.com/AhmedMohamedGaber/E-commerce/blob/main/logo.png)
+![Logo](https://github.com/AhmedMohamedGaber/E-commerce/blob/main/logo.png)  
 *(Replace this link with your actual logo path)*
 
 This **E-commerce** project is developed under instruction and provides a fully functional e-commerce platform. It includes features for browsing products, managing a shopping cart, placing orders, and an admin panel for product management.
