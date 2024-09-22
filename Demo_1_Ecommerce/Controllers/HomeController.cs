@@ -1,11 +1,9 @@
-using Demo_1_Ecommerce.Models;
-using Microsoft.AspNetCore.Authorization;
+using Demo_1_Ecommerce.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Demo_1_Ecommerce.Controllers
 {
-    //[Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

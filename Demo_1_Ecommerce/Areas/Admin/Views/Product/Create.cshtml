@@ -1,0 +1,74 @@
+﻿@model Product
+
+@{
+    ViewBag.PageTitle = "Product Management";
+
+    ViewBag.CardTitle = "Create Product";
+
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="img" class="control-label"></label>
+                <input type="file" name="file" id="imgfile" class="form-control" onchange="fillimg(event);" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" asp-items="ViewBag.CategorySelectList">
+                    <option disabled selected>---- Select Category ----</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Create" />
+                <a asp-action="index" asp-controller="Product" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Image preview section, floating to the right -->
+    <div class="col-md-4">
+        <div class="container thumb" style="text-align:right;">
+            <label style="display: flex;">Image Preview:</label>
+            <img id="imgPreview" src="" alt="Image preview" style="width: 200px; height: 200px; display: none;" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function fillimg(event) {
+            var imgPreview = document.getElementById("imgPreview");
+
+            // Set the src of the image preview to the selected file
+            imgPreview.src = URL.createObjectURL(event.target.files[0]);
+
+            // Show the image preview
+            imgPreview.style.display = 'block';
+        }
+    </script>
+}

@@ -1,18 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Demo_1_Ecommerce.Models
-{
+namespace Demo_1_Ecommerce.ViewModels 
+{ 
     public class Category
     {
-        [Key]
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
-        public string CategoryImageUrl { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public int id { get; set; }
+        [Required]
+        public string name { get; set; }
+        public string description { get; set; }
 
-        // Navigation property for related Products
-        public ICollection<Product> Products { get; set; }
+        public DateTime CreatedTime { get; set; }= DateTime.Now;
     }
-
 }

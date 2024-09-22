@@ -1,0 +1,663 @@
+﻿@model HomeViewModel
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles {
+   
+    <style>
+
+
+
+
+
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f39c12;
+            --background-light: #f8f9fa;
+            --background-dark: #343a40;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            /* overflow: hidden; */
+            height: 100%;
+        }
+
+        .card-img-top {
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+
+/*         .card:hover .card-img-top {
+            transform: scale(1.05);
+        } */
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .category-card .card-img-overlay {
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 12px;
+            color: white;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .badge-sale { background-color: #e74c3c; }
+        .badge-new { background-color: #2ecc71; }
+        .badge-popular { background-color: #f39c12; }
+
+        .featured-categories {
+            background-color: var(--background-light);
+        }
+
+        .top-offers {
+            background-color: #fff5f5;
+        }
+
+        .new-arrivals {
+            background-color: #f0fff4;
+        }
+
+        .popular-products {
+            background-color: #fff9db;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: darken(var(--primary-color), 10%);
+            border-color: darken(var(--primary-color), 10%);
+            /* transform: translateY(-2px); */
+        }
+
+        .newsletter-section {
+            background-color: var(--background-dark);
+            color: white;
+            padding: 60px 0;
+        }
+
+        .newsletter-section .section-title {
+            color: white;
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form .form-control {
+            border-radius: 25px;
+            padding: 12px 20px;
+        }
+
+        .testimonial-section {
+            background-color: var(--background-light);
+            padding: 80px 0;
+        }
+
+        .testimonial-card {
+            display:grid;
+            justify-content:center;
+            align-content:center;
+            justify-items: center;
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-image {
+            width: 80px !important;
+            height: 80px !important;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .brand-section {
+            background-color: white;
+            padding: 60px 0;
+        }
+
+        .brand-item {
+            filter: grayscale(100%);
+            transition: filter 0.3s ease-in-out;
+            max-width: 120px;
+            margin: 0 auto;
+        }
+
+        .brand-item:hover {
+            filter: grayscale(0%);
+        }
+
+        .owl-nav button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color) !important;
+            color: white !important;
+            padding: 10px 15px !important;
+            font-size: 1.5rem !important;
+            border-radius: 50% !important;
+            transition: all 0.3s ease;
+        }
+
+        .owl-prev { left: -20px; }
+        .owl-next { right: -20px; }
+
+        .owl-nav button:hover {
+            background: var(--secondary-color) !important;
+        }
+
+        @@media (max-width: 768px) {
+            .section { padding: 60px 0; }
+            .section-title { font-size: 2rem; }
+            .card-img-top { height: 200px; }
+        }
+
+        @@media (max-width: 576px) {
+            .section { padding: 40px 0; }
+            .section-title { font-size: 1.8rem; }
+            .card-img-top { height: 180px; }
+        }
+
+        .owl-carousel .owl-nav button.owl-next, .owl-carousel .owl-nav button.owl-prev, .owl-carousel button.owl-dot {
+            padding:initial !important;
+            width:40px !important;
+            height:40px !important;
+        }
+
+   
+
+        button.btn.btn-primary.xbtn{
+            padding: 15px;
+            border-radius: 0 30px 30px 0;
+
+        }
+
+     
+    </style>
+}
+
+<!-- Hero Section -->
+@* @if(User.Identity.IsAuthenticated){
+<section class="hero-section" style="background-image: url('https://via.placeholder.com/1920x600?text='); background-size: cover; background-position: center; height: 600px;">
+    <div class="container h-100 d-flex align-items-center">
+        <div class="hero-content text-white">
+            <h1 class="display-4 font-weight-bold">Welcome to Our Store</h1>
+            <p class="lead">Discover amazing products at unbeatable prices.</p>
+            <a href="@Url.Action("Home", "Home", new { area = "Customer"})" class="btn btn-primary btn-lg">Shop Now</a>
+        </div>
+    </div>
+</section>
+} *@
+
+<!-- start banner Area -->
+<section class="banner-area">
+    <div class="container">
+        <div class="row fullscreen align-items-center justify-content-start">
+            <div class="col-lg-12">
+              @*   <div class="active-banner-slider owl-carousel"> *@
+                    <div class="owl-carousel testimonial-carousel">
+                    <!-- single-slide -->
+                    <div class="row single-slide align-items-center d-flex">
+                        <div class="col-lg-5 col-md-6">
+                            <div class="banner-content">
+                                <h1>Nike New <br>Collection!</h1>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                                </p>
+                                <div class="add-bag d-flex align-items-center">
+                                    <a class="add-btn" href="~/Customer/Home/Home"><span class="lnr lnr-cross"></span></a>
+                                    <span class="add-text text-uppercase">Shop Now</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="banner-img">
+                                <img class="img-fluid" src="~/MainEcommerce/img/banner/banner-img.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- single-slide -->
+                    <div class="row single-slide">
+                        <div class="col-lg-5">
+                            <div class="banner-content">
+                                <h1>Nike New <br>Collection!</h1>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                                </p>
+                                <div class="add-bag d-flex align-items-center">
+                                    <a class="add-btn" href="~/Customer/Home/Home"><span class="lnr lnr-cross"></span></a>
+                                    <span class="add-text text-uppercase">Shop Now</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="banner-img">
+                                <img class="img-fluid" src="~/MainEcommerce/img/banner/banner-img.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End banner Area -->
+
+
+<!-- start features Area -->
+<section class="features-area section_gap">
+    <div class="container">
+        <div class="row features-inner">
+            <!-- single features -->
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-features">
+                    <div class="f-icon">
+                        <img src="~/MainEcommerce/img/features/f-icon1.png" alt="">
+                    </div>
+                    <h6>Free Delivery</h6>
+                    <p>Free Shipping on all order</p>
+                </div>
+            </div>
+            <!-- single features -->
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-features">
+                    <div class="f-icon">
+                        <img src="~/MainEcommerce/img/features/f-icon2.png" alt="">
+                    </div>
+                    <h6>Return Policy</h6>
+                    <p>Free Shipping on all order</p>
+                </div>
+            </div>
+            <!-- single features -->
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-features">
+                    <div class="f-icon">
+                        <img src="~/MainEcommerce/img/features/f-icon3.png" alt="">
+                    </div>
+                    <h6>24/7 Support</h6>
+                    <p>Free Shipping on all order</p>
+                </div>
+            </div>
+            <!-- single features -->
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-features">
+                    <div class="f-icon">
+                        <img src="~/MainEcommerce/img/features/f-icon4.png" alt="">
+                    </div>
+                    <h6>Secure Payment</h6>
+                    <p>Free Shipping on all order</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end features Area -->
+
+
+
+
+<!-- Featured Categories -->
+<section class="brand-area section_gap">
+    <div class="container">
+        <div class="row">
+            @foreach (var category in Model.FeaturedCategories) // Assuming you have a list of categories in your model
+            {
+                <a class="col card" href="~/Customer/Home/Home" class="category-link">
+                    <img class="img-fluid d-block mx-auto" src="https://images.unsplash.com/photo-1515940175183-6798529cb860" alt="@category.name">
+                    <span class="category-name" style="color:#ff9720; text-align:center ">@category.name</span> <!-- Display category name -->
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- Top Offers -->
+<section class="section top-offers">
+    <div class="container-fluid container-lg">
+        <h2 class="section-title">Top Offers</h2>
+        <div class="owl-carousel product-carousel">
+            @foreach (var product in Model.TopOffers)
+            {
+                <div class="item">
+                    <div class="card h-100">
+                        <div class="product-badge badge-sale">Sale</div>
+                        <img src="~/@(string.IsNullOrEmpty(product.img) ? $"https://via.placeholder.com/400x300/f39c12/ffffff?text={product.Name}" : product.img)" class="card-img-top" alt="@product.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">
+                                <span class="text-danger">$@product.Price.ToString("F2")</span>
+                                <span class="text-muted"><del>$@((product.Price * 1.2m).ToString("F2"))</del></span>
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="@Url.Action("Details", "Home", new { area = "Customer", ProductID = product.Id })" class="btn btn-primary">View Details</a>
+                                <div class="d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                    </svg>
+                                    <span class="ms-1">@ViewBag.AverageRatings[product.Id].ToString("F1")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- New Arrivals -->
+<section class="section new-arrivals">
+    <div class="container-fluid container-lg">
+        <h2 class="section-title">New Arrivals</h2>
+        <div class="owl-carousel product-carousel">
+            @foreach (var product in Model.NewArrivals)
+            {
+                <div class="item">
+                    <div class="card h-100">
+                        <div class="product-badge badge-new">New</div>
+                        <img src="~/@(string.IsNullOrEmpty(product.img) ? $"https://via.placeholder.com/400x300/2ecc71/ffffff?text={product.Name}" : product.img)" class="card-img-top" alt="@product.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">$@product.Price.ToString("F2")</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                            <a href="@Url.Action("Details", "Home", new { area = "Customer", ProductID = product.Id })" class="btn btn-primary">View Details</a>
+                            <div class="d-flex align-items-center">
+                                    <svg style="color:#ff9e00" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                    </svg>
+                                <span class="ms-1">@ViewBag.AverageRatings[product.Id].ToString("F1")</span>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Popular Products -->
+<section class="section popular-products">
+    <div class="container-fluid container-lg">
+        <h2 class="section-title">Popular Products</h2>
+        <div class="owl-carousel product-carousel">
+            @foreach (var product in Model.PopularProducts)
+            {
+                <div class="item">
+                    <div class="card h-100">
+                        <div class="product-badge badge-popular">Popular</div>
+                        <img src="~/@(string.IsNullOrEmpty(product.img) ? $"https://via.placeholder.com/400x300/e74c3c/ffffff?text={product.Name}" : product.img)" class="card-img-top" alt="@product.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">$@product.Price.ToString("F2")</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                            <a href="@Url.Action("Details", "Home", new { area = "Customer", ProductID = product.Id })" class="btn btn-primary">View Details</a>
+                            <div class="d-flex align-items-center">
+                                    <svg style="color:#ff9e00" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                    </svg>
+                                <span class="ms-1">@ViewBag.AverageRatings[product.Id].ToString("F1")</span>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section testimonial-section">
+    <div class="container">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <div class="owl-carousel testimonial-carousel">
+            <div class="testimonial-card text-center">
+                <img src="~/MainEcommerce/img/r7.jpg" alt="Customer" class="testimonial-image">
+                <p class="mb-3">"Great products and excellent service! I'm a happy customer."</p>
+                <h5 class="font-weight-bold">John Doe</h5>
+            </div>
+            <div class="testimonial-card text-center">
+                <img src="~/MainEcommerce/img/l1.jpg" alt="Customer" class="testimonial-image">
+                <p class="mb-3">"The quality of the items exceeded my expectations. Will shop again!"</p>
+                <h5 class="font-weight-bold">Jane Smith</h5>
+            </div>            
+            <div class="testimonial-card text-center">
+                <img src="~/MainEcommerce/img/r9.jpg" alt="Customer" class="testimonial-image">
+                <p class="mb-3">"Great products and excellent service! I'm a happy customer."</p>
+                <h5 class="font-weight-bold">Jane Smith</h5>
+            </div>           
+            <div class="testimonial-card text-center">
+                <img src="~/MainEcommerce/img/r9.jpg" alt="Customer" class="testimonial-image">
+                <p class="mb-3">"The quality of the items exceeded my expectations. Will shop again!"</p>
+                <h5 class="font-weight-bold">Jane Smith</h5>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter-section">
+    <div class="container text-center">
+        <h2 class="section-title">Join Our Newsletter</h2>
+        <p class="mb-4">Subscribe to receive updates, access to exclusive deals, and more.</p>
+        <form class="newsletter-form">
+            <div class="input-group mb-3">
+                <input type="email" class="form-control" placeholder="Enter your email" aria-label="Email" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-primary xbtn" type="button" id="button-addon2">Subscribe</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Brand Showcase -->
+<section class="brand-section">
+    <div class="container">
+        <h2 class="section-title">Our Brands</h2>
+        <div class="owl-carousel brand-carousel">
+            <div class="brand-item">
+                <img src="https://via.placeholder.com/150x80/4a90e2/ffffff?text=Samsung" alt="Brand 1">
+            </div>
+            <div class="brand-item">
+                <img src="https://via.placeholder.com/150x80/4a90e2/ffffff?text=Apple" alt="Brand 2">
+            </div>
+            <div class="brand-item">
+                <img src="https://via.placeholder.com/150x80/4a90e2/ffffff?text=LG" alt="Brand 3">
+            </div>
+            <div class="brand-item">
+                <img src="https://via.placeholder.com/150x80/4a90e2/ffffff?text=DELL" alt="Brand 4">
+            </div>            
+            <div class="brand-item">
+                <img src="https://via.placeholder.com/150x80/4a90e2/ffffff?text=HP" alt="Brand 5">
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    
+    <script>
+        $(document).ready(function(){
+
+            $('.category-carousel').owlCarousel({
+                loop: true,
+                margin: 20,
+                nav: true,
+                dots: false,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                autoplayHoverPause: true,
+                responsive: {
+                    0: { items: 1 },
+                    576: { items: 2 },
+                    768: { items: 3 },
+                    992: { items: 4 }
+                }
+            });
+
+            $('.product-carousel').owlCarousel({
+                loop: true,
+                margin: 20,
+                nav: true,
+                dots: false,
+                autoplay: true,
+                autoplayTimeout: 4000,
+                autoplayHoverPause: true,
+                responsive: {
+                    0: { items: 1 },
+                    576: { items: 2 },
+                    768: { items: 3 },
+                    992: { items: 4 }
+                }
+            });
+
+            $('.testimonial-carousel').owlCarousel({
+                loop: true,
+                margin: 30,
+                nav: false,
+                dots: true,
+                items: 1,
+                autoplay: true,
+                autoplayTimeout: 6000,
+                autoplayHoverPause: true
+            });
+
+            $('.brand-carousel').owlCarousel({
+                loop: true,
+                margin: 30,
+                nav: false,
+                dots: false,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                autoplayHoverPause: true,
+                responsive: {
+                    0: { items: 2 },
+                    576: { items: 3 },
+                    768: { items: 4 },
+                    992: { items: 6 }
+                }
+            });
+
+            // Smooth scroll for internal links
+            $('a[href^="#"]').on('click', function(event) {
+                var target = $(this.getAttribute('href'));
+                if( target.length ) {
+                    event.preventDefault();
+                    $('html, body').stop().animate({
+                        scrollTop: target.offset().top - 100
+                    }, 1000);
+                }
+            });
+
+            // Animation on scroll
+            $(window).scroll(function() {
+                $(".card").each(function() {
+                    var position = $(this).offset().top;
+                    var scroll = $(window).scrollTop();
+                    var windowHeight = $(window).height();
+                    if (scroll > position - windowHeight + 200) {
+                        $(this).addClass("animated fadeInUp");
+                    }
+                });
+            });
+
+            // Newsletter form submission
+            $(".newsletter-form").submit(function(e) {
+                e.preventDefault();
+                var email = $(this).find("input[type='email']").val();
+                // Here you would typically send the email to your server
+                alert("Thank you for subscribing with: " + email);
+                $(this).find("input[type='email']").val("");
+            });
+
+            // Product quick view (you would need to implement a modal for this)
+            $(".btn-quick-view").click(function(e) {
+                e.preventDefault();
+                var productId = $(this).data("product-id");
+                // Here you would typically load product details via AJAX and show in a modal
+                alert("Quick view for product ID: " + productId);
+            });
+        });
+    </script>
+}

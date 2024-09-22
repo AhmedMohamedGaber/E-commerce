@@ -1,0 +1,46 @@
+﻿@model Category
+
+@{
+
+    ViewBag.PageTitle = "Category Managment";
+    ViewBag.CardTitle = "Edit Category";
+
+    Layout = "_AdminLayout";
+}
+
+
+<form method="post">
+   <input type="hidden" asp-for="id" />
+    <div class="mb-3">
+        <label asp-for="name"></label>
+        <input asp-for="name" class="form-control" />
+        <span asp-validation-for="name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="description"></label>
+        <textarea asp-for="description" class="form-control" ></textarea>
+        <span asp-validation-for="description"></span>
+    </div>
+
+    <div class="mb-3">
+        <input type="submit" class="btn btn-outline-primary" value="Update" />
+        <input type="submit" class="btn btn-outline-danger" value="Cancel" asp-action="index" asp-controller="Category" />
+
+    </div>
+
+</form>
+@* <script src="~/lib/jquery-validation/dist/jquery"></script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script> *@
+
+@* لما بشغل الجزء بتاع البارشل  بيعمل
+client SIde validation  *@
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+}
+

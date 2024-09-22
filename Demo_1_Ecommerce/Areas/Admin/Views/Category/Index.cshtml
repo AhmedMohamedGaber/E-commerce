@@ -1,0 +1,41 @@
+﻿@model List<Category>
+@{
+
+    ViewBag.PageTitle = "Category Managment";
+    ViewBag.CardTitle = "View Category";
+
+    Layout = "_AdminLayout";
+}
+
+
+<div>
+
+<a asp-action="Create"  asp-controller="Category" class="btn btn-primary">Create New </a>
+</div>
+<br />
+    <table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>CreatedTime</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    @foreach(var item in Model)
+    {
+        <tr>
+
+            <td>@item.name</td>
+            <td>@item.description</td>
+            <td>@item.CreatedTime</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id" asp-controller="Category" class="btn btn-primary">Edit</a>
+                <a asp-action="Delete" asp-route-id="@item.id" asp-controller="Category" class="btn btn-danger">Delete</a>
+
+            </td>
+        </tr>
+
+
+    }
+</table>

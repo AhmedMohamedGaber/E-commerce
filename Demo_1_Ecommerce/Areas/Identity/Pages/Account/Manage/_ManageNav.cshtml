@@ -1,0 +1,61 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+
+<ul class="nav flex-column nav-pills shadow-sm p-3 mb-5 bg-white rounded">
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.IndexNavClass(ViewContext) d-flex align-items-center" id="profile" asp-page="./Index">
+            <i class="bi bi-person-circle me-2"></i> Profile
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.EmailNavClass(ViewContext) d-flex align-items-center" id="email" asp-page="./Email">
+            <i class="bi bi-envelope-fill me-2"></i> Email
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext) d-flex align-items-center" id="change-password" asp-page="./ChangePassword">
+            <i class="bi bi-lock-fill me-2"></i> Password
+        </a>
+    </li>
+    @if (hasExternalLogins)
+    {
+        <li id="external-logins" class="nav-item">
+            <a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext) d-flex align-items-center" asp-page="./ExternalLogins">
+                <i class="bi bi-box-arrow-in-right me-2"></i> External Logins
+            </a>
+        </li>
+    }
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext) d-flex align-items-center" id="two-factor" asp-page="./TwoFactorAuthentication">
+            <i class="bi bi-shield-lock-fill me-2"></i> Two-Factor Authentication
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext) d-flex align-items-center" id="personal-data" asp-page="./PersonalData">
+            <i class="bi bi-file-earmark-person-fill me-2"></i> Personal Data
+        </a>
+    </li>
+</ul>
+
+<style>
+    .nav-pills .nav-link {
+        font-weight: 600;
+        color: #333 !important;
+        background-color: #f8f9fa;
+        border-radius: .375rem;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+        .nav-pills .nav-link.active, .nav-pills .nav-link:hover {
+            background-color: #17a2b8;
+            color: #fff !important;
+        }
+
+        .nav-pills .nav-link i {
+            font-size: 1.2rem;
+        }
+
+ 
+</style>

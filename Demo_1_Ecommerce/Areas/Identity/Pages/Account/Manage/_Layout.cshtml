@@ -1,0 +1,67 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
+
+    {
+
+        Layout = parentLayout.ToString();
+
+    }
+
+    else
+
+    {
+
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+
+    }
+}
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Profile Page</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="~/Customer/Home/Index">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="~/Identity/Account/Manage">Manage</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+<!-- Start Profile Area -->
+
+
+<section class="exclusive-deal-area">
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Navigation</h5>
+                    <partial name="_ManageNav" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="text-secondary">Change your account settings</h2>
+                    <hr />
+                    <div class="content-area">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- End Profile Area -->
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

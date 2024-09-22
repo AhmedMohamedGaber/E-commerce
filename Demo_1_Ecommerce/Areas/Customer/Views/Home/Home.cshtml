@@ -1,0 +1,322 @@
+﻿    @model IEnumerable<Product>
+
+    @{
+        ViewData["Title"] = "Home Page";
+    }
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+    .my-card {
+        border-radius: 0.5rem; /* Adjust the radius as needed */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Light shadow */
+        transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition */
+    }
+
+        .my-card:hover {
+            /* Slight lift on hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 1.0); /* Darker shadow on hover */
+        }
+
+    .hover-image {
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    }
+
+        .hover-image:hover {
+            border-radius: 0.5rem;
+            /* Slightly zooms in the image */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Adds shadow on hover */
+        }
+</style>
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>
+                    Shop page
+                </h1>
+                <nav class="d-flex align-items-center">
+                    <a href="~/Customer/Home/Index">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="~/Customer/Home/Home">Shop</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card ">
+        @*         <div class="card-body">
+                    <form asp-action="Home" method="get" id="filter-form" class="p-4 rounded shadow-sm bg-light" style="background: linear-gradient(to left, #ffb001, #fe7f00) !important;">
+                        <h5 class="mb-3 text-white">Filter Products</h5>
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" name="searchTerm" class="form-control" placeholder="🔍 Search products" value="@ViewBag.SearchTerm" aria-label="Search products">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <select name="categoryName" class="form-select">
+                                    <option value="">All Categories</option>
+                                    @foreach (var category in ViewBag.Categories)
+
+                                    {
+                                        <option value="@category" selected="@(category == ViewBag.CurrentCategory)">@category</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <input type="number" name="minPrice" class="form-control" placeholder="Min Price" value="@ViewBag.MinPrice" aria-label="Min Price">
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <input type="number" name="maxPrice" class="form-control" placeholder="Max Price" value="@ViewBag.MaxPrice" aria-label="Max Price">
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <select name="sortBy" class="form-select">
+                                    <option value="">Sort By</option>
+                                    <option value="price_asc" selected="@(ViewBag.SortBy == "price_asc")">Price: Low to High</option>
+                                    <option value="price_desc" selected="@(ViewBag.SortBy == "price_desc")">Price: High to Low</option>
+                                    <option value="name_asc" selected="@(ViewBag.SortBy == "name_asc")">Name: A to Z</option>
+                                    <option value="name_desc" selected="@(ViewBag.SortBy == "name_desc")">Name: Z to A</option>
+                                </select>
+                            </div>
+                           
+                        </div>
+
+                    </form>
+                    <div class="col-auto">
+
+                        <button type="submit" class="primary-btn radius add-to-cart btn-lg w-10 mt-4" style="border: none ; position : relative ;bottom: 4px; left: 43%;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0" />
+                                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                            </svg>
+                            Apply
+                        </button>
+                    </div>
+                </div> *@
+
+                    <div class="card-body">
+                        <form asp-action="Home" method="get" id="filter-form">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-auto">
+                                    <input type="text" name="searchTerm" class="form-control" placeholder="Search products" value="@ViewBag.SearchTerm">
+                                </div>
+                                <div class="col-auto">
+                                    <select name="categoryName" class="form-select">
+                                        <option value="">All Categories</option>
+                                        @foreach (var category in ViewBag.Categories)
+                                        {
+                                            <option value="@category" selected="@(category == ViewBag.CurrentCategory)">@category</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <input type="number" name="minPrice" class="form-control" placeholder="Min Price" value="@ViewBag.MinPrice">
+                                </div>
+                                <div class="col-auto">
+                                    <input type="number" name="maxPrice" class="form-control" placeholder="Max Price" value="@ViewBag.MaxPrice">
+                                </div>
+                                <div class="col-auto">
+                                    <select name="sortBy" class="form-select">
+                                        <option value="">Sort By</option>
+                                        <option value="price_asc" selected="@(ViewBag.SortBy == "price_asc")">Price: Low to High</option>
+                                        <option value="price_desc" selected="@(ViewBag.SortBy == "price_desc")">Price: High to Low</option>
+                                        <option value="name_asc" selected="@(ViewBag.SortBy == "name_asc")">Name: A to Z</option>
+                                        <option value="name_desc" selected="@(ViewBag.SortBy == "name_desc")">Name: Z to A</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div> 
+                </div>
+            </div>
+        </div>
+
+    <div class="row" id="product-list">
+        @foreach (var product in Model)
+
+        {
+            <div class="col-md-6 col-lg-6 col-xl-4 my-card">
+                <div class="single-product h-100" data-product-id="@product.Id">
+                    <!-- Product Image -->
+                    <img class="img-fluid w-100 rounded-top hover-image" src="~/@product.img" alt="@product.Name" data-bs-toggle="modal" data-bs-target="#imageModal-@product.Id">
+                    <button class="btn btn-link" style="position: absolute; top: 20px; left: 10%; transform: translateX(-50%);" data-bs-toggle="modal" data-bs-target="#imageModal-@product.Id">
+                        <i class="fa fa-expand" style="font-size: 24px; color: #f58600;"></i>
+                    </button>
+
+                    <!-- Modal (unique for each product) -->
+                    <div class="modal fade" id="imageModal-@product.Id" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen">
+                            <div class="modal-content">
+                                <div class="modal-body d-flex justify-content-center align-items-center">
+                                    <img src="~/@product.img" alt="@product.Name" class="img-fluid">
+                                    <button type="button" class="btn btn-link position-absolute" style="top: 20px; left: 20px;" data-bs-dismiss="modal">
+                                        <i class="fa fa-times" aria-hidden="true" style="font-size: 24px; color: red;"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Details -->
+                    <div class="product-details card-body d-flex flex-column">
+                        <div class="prd-bottom d-flex justify-content-xl-between">
+                            <h6 class="card-title">@product.Name</h6>
+                            <h6>
+                                <svg style="color:#ff9e00" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                                <span>@ViewBag.AverageRatings[product.Id].ToString("F1")</span>
+                            </h6>
+                        </div>
+
+                        <div class="prd-bottom d-flex">
+                            <h6 class="card-title">
+                                @GetLimitedDescription(product.Description, 10)
+                            </h6>
+                        </div>
+
+                        <!-- Price Section -->
+                        <div class="price d-flex justify-content-xl-between mt-3">
+                            <h6>$@(product.Price * 0.8m)</h6>
+                            <h6 class="l-through ml-4" style="color:gray">$@product.Price</h6>
+                            <h6 class="text-danger">(-20%)</h6>
+                        </div>
+
+                        <!-- Bottom Buttons and Actions -->
+                        <div class="prd-bottom d-flex justify-content-xl-between mt-5">
+                            <!-- Add to Bag -->
+                            <button class="primary-btn radius add-to-cart" data-product-id="@product.Id" style="border: none;">
+                                <span class="ti-bag"></span> Add to bag
+                            </button>
+                            <a href="@Url.Action("Details", "Home", new { ProductID = product.Id })" class="social-info mt-2">
+                                <span class="lnr lnr-move"></span>
+                                <p class="hover-text">view more</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div id="loading-spinner" class="text-center d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+      
+    </div>
+
+    @section Styles {
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+        <style>
+            .product-card {
+                transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            }
+
+                .product-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                }
+
+            .card-img-top {
+                height: 200px;
+                object-fit: cover;
+            }
+        </style>
+    }
+@functions {
+    public string GetLimitedDescription(string description, int wordCount)
+
+    {
+
+        if (string.IsNullOrEmpty(description))
+
+            return string.Empty;
+
+
+
+        var words = description.Split(' ');
+
+        return string.Join(" ", words.Take(wordCount)) + (words.Length > wordCount ? "..." : string.Empty);
+
+    }
+}
+    @section Scripts {
+
+
+    <script>
+        $(document).ready(function () {
+            let currentPage = @ViewBag.CurrentPage;
+            let loading = false;
+            let noMoreProducts = false;
+
+            // Configure Toastr
+            toastr.options = {
+                closeButton: true,
+                progressBar: true,
+                positionClass: "toast-top-right",
+                timeOut: 3000,
+                extendedTimeOut: 1000,
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "slideDown",
+                hideMethod: "slideUp"
+            };
+
+            function loadMoreProducts() {
+                if (loading || noMoreProducts) return;
+                loading = true;
+
+                $('#loading-spinner').removeClass('d-none');
+
+                currentPage++;
+                var url = '@Url.Action("Home", "Home", new { area = "Customer" })' +
+                    '?page=' + currentPage +
+                    '&categoryName=@ViewBag.CurrentCategory' +
+                    '&searchTerm=@ViewBag.SearchTerm' +
+                    '&minPrice=@ViewBag.MinPrice' +
+                    '&maxPrice=@ViewBag.MaxPrice' +
+                    '&sortBy=@ViewBag.SortBy';
+
+                $.get(url, function (data) {
+                    var $data = $(data);
+                    var $newProducts = $data.find('#product-list').children();
+
+                    if ($newProducts.length > 0) {
+                        $('#product-list').append($newProducts);
+                    } else {
+                        noMoreProducts = true;
+                    }
+
+                    loading = false;
+                    $('#loading-spinner').addClass('d-none');
+                });
+            }
+
+
+
+
+            $(window).scroll(function () {
+                if (!noMoreProducts && $(window).scrollTop() + $(window).height() > $(document).height() - 200) {
+                    loadMoreProducts();
+                }
+            });
+
+
+        });
+    </script>
+    }
+    }
+    }

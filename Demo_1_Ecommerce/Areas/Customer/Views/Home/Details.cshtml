@@ -1,0 +1,394 @@
+﻿@model ShopingCart
+@using System.Security.Claims
+@{
+    Layout = "_Customer";
+}
+
+@section Styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <style>
+        .star-rating {
+            color: #ffc107;
+        }
+
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+            .star-rating input {
+                display: none; /* Hide the radio buttons */
+            }
+
+            .star-rating label {
+                font-size: 2rem;
+                color: #ccc;
+                cursor: pointer;
+            }
+
+                .star-rating label:hover,
+                .star-rating label:hover ~ label,
+                .star-rating input:checked ~ label {
+                    color: #ffca28; /* Highlight the stars */
+                }
+
+            .star-rating input:checked + label:hover,
+            .star-rating input:checked + label:hover ~ label {
+                color: #ffca28; /* Ensure checked stars remain colored */
+            }
+    </style>
+}
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Product Details</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="~/Customer/Home/Index">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="#">product-details</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+
+<section class="product_image_area">
+    <div class="container">
+        <div class="row s_product_inner">
+
+            <div class="col-lg-6">
+                <div class="s_Product_carousel">
+                    <div class="single-prd-item">
+                        <img class="img-fluid hover-image" src="~/@Model.Product.img" alt="@Model.Product.Description" />
+                        <button class="btn btn-link" style="position: absolute; top: 20px; left: 5%; transform: translateX(-50%);" data-bs-toggle="modal" data-bs-target="#imageModal">
+                            <i class="fa fa-expand" style="font-size: 24px; color: #f58600;"></i>
+                        </button>
+                    </div>
+                    <!-- Repeat for other items -->
+                    <div class="single-prd-item">
+                        <img class="img-fluid hover-image" src="~/@Model.Product.img" alt="@Model.Product.Description" />
+                        <button class="btn btn-link" style="position: absolute;  top: 20px; left: 5%; transform: translateX(-50%);" data-bs-toggle="modal" data-bs-target="#imageModal">
+                            <i class="fa fa-expand" style="font-size: 24px; color: #f58600;"></i>
+                        </button>
+                    </div>
+                    <div class="single-prd-item">
+                        <img class="img-fluid hover-image" src="~/@Model.Product.img" alt="@Model.Product.Description" />
+                        <button class="btn btn-link" style="position: absolute;  top: 20px; left: 5%; transform: translateX(-50%);" data-bs-toggle="modal" data-bs-target="#imageModal">
+                            <i class="fa fa-expand" style="font-size: 24px; color: #f58600;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-fullscreen">
+                    <div class="modal-content">
+                        <div class="modal-body d-flex justify-content-center align-items-center">
+                            <img src="~/@Model.Product.img" alt="@Model.Product.Description" class="img-fluid">
+                            <button type="button" class="btn btn-link position-absolute" style="top: 20px; left: 20px;" data-bs-dismiss="modal">
+                                <i class="fa fa-times" aria-hidden="true" style="font-size: 24px; color: red;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                        <h3>@Model.Product.Name</h3>
+                        <h2>$@(Model.Product.Price * 0.8m)</h2>
+                    <h4>
+                        Price:
+                        <s>$@Model.Product.Price</s>
+                        <span class="text-danger">(-20%)</span>
+                    </h4>
+                    <ul class="list">
+                        <li><a class="active" href="#"><span>Category</span> : @Model.Product.Category.name</a></li>
+                        <li><a class="active" href="#"><span>Brands</span> : @Model.Product.Name</a></li>
+                        <li><a href="#"><span>Availibility</span> : In Stock</a></li>
+                     
+                    </ul>
+
+
+                    <div class="mb-3">
+                        <span class="star-rating">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= ViewBag.AverageRating)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
+                                else if (i - 0.5 <= ViewBag.AverageRating)
+                                {
+                                    <i class="fas fa-star-half-alt"></i>
+                                }
+                                else
+                                {
+                                    <i class="far fa-star"></i>
+                                }
+                            }
+                        </span>
+                        <span class="ms-2">@ViewBag.AverageRating.ToString("F1") out of 5</span>
+                    </div>
+                    <p >@Model.Product.Description</p>
+                    <div class="product_count">
+                        <label for="qty">Quantity:</label>
+                        <input id="sst" name="qty" value="1" type="text" maxlength="12" title="Quantity:" class="input-text qty" />
+
+                        <button onclick="changeQuantity(1)" class="increase items-count" type="button">
+                            <i class="lnr lnr-chevron-up"></i>
+                        </button>
+                        <button onclick="changeQuantity(-1)" class="reduced items-count" type="button">
+                            <i class="lnr lnr-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="card_area d-flex align-items-center">
+                        <button type="submit" class="primary-btn add-to-cart " data-product-id="@Model.Product.Id" style="border: none; ">
+                            <i class="lnr lnr-cart"></i>
+                             Add to Cart
+                         </button>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    </section>
+
+
+<div class="container mt-5">
+    <h3>Customer Feedback and Ratings</h3>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Average Rating: @ViewBag.AverageRating.ToString("F1")</h4>
+            <div class="star-rating">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (i <= ViewBag.AverageRating)
+                    {
+                        <i class="fas fa-star"></i>
+                    }
+                    else if (i - 0.5 <= ViewBag.AverageRating)
+                    {
+                        <i class="fas fa-star-half-alt"></i>
+                    }
+                    else
+                    {
+                        <i class="far fa-star"></i>
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-md-8">
+            @if (Model.Product.Reviews == null || !Model.Product.Reviews.Any())
+            {
+                <p>No reviews available.</p>
+            }
+            else
+            {
+
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                @foreach (var review in Model.Product.Reviews.OrderByDescending(r => r.CreatedAt))
+
+                {
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <span class="star-rating">
+                                    @for (int i = 1; i <= 5; i++)
+
+                                    {
+
+                                        if (i <= review.Rate)
+
+                                        {
+                                            <i class="fas fa-star"></i>
+                                        }
+
+                                        else
+
+                                        {
+                                            <i class="far fa-star"></i>
+                                        }
+
+                                    }
+                                </span>
+                                <span class="ms-2">@review.Rate / 5</span>
+                            </h5>
+                            <p class="card-text">@review.Comment</p>
+                            <p class="card-text">
+                                <small class="text-muted">Posted on @review.CreatedAt.ToString("MMMM dd, yyyy")</small>
+                            </p>
+
+                            @if (review.User != null)
+                            {
+
+                                if (review.User.Id == currentUserId)
+
+                                {
+                                    <p class="card-text">Your review</p>
+                                }
+
+                                else
+
+                                {
+                                    <p class="card-text">Posted by @review.User.Name</p>
+                                }
+                            }
+                            else
+                            {
+                                <p class="card-text">Posted by Anonymous</p>
+                            }
+
+                            <div>
+                                @if (review.User != null && review.User.Id == currentUserId)
+
+                                {
+                                    <a asp-action="EditReview" asp-route-reviewId="@review.Id" class="primary-btn">
+                                        Edit
+                                    </a>
+                                    <form asp-action="DeleteReview" asp-route-reviewId="@review.Id" method="post" style="display:inline;">
+                                        <button type="submit" class="primary-btn" onclick="return confirm('Are you sure you want to delete this review?');">
+                                            Delete
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+    </div>
+</div>
+
+<div class="container mt-5">
+    
+    <h3>Rate This Product and Leave a Comment</h3>
+
+    
+    @if (TempData["ErrorMessage"] != null)
+
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (Model.Product.Reviews.Any(r => r.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
+
+    {
+        <p class="text-success">You have already reviewed this product.</p>
+    }
+
+    else
+
+    {
+        <form asp-action="AddReview" asp-controller="Home" asp-route-id="@Model.Product.Id" method="post">
+            <div class="form-group">
+                <label>Rating</label>
+                <div class="star-rating">
+                    @for (int i = 5; i >= 1; i--)
+                    {
+                        <input type="radio" id="star@(i)" name="rate" value="@i" required />
+                        <label for="star@(i)" class="star-label"><i class="fas fa-star"></i></label>
+                    }
+                </div>
+            </div>
+            <div class="form-group mt-3">
+                <label for="comment">Comment</label>
+                <textarea class="form-control" id="comment" name="comment" rows="3" required maxlength="500"></textarea>
+            </div>
+            <button type="submit" class="primary-btn mt-3 m-4" style="border:none">
+                Review
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
+                </svg>
+            </button>
+        </form>
+    }
+</div>
+
+@* 
+<div class="container mt-5">
+    <h2>Leave a Review</h2>
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (Model.Product.Reviews.Any(r => r.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
+    {
+        <p class="text-success">You have already reviewed this product.</p>
+    }
+    else
+    {
+        <form asp-action="AddReview" asp-controller="Home" asp-route-id="@Model.Product.Id" method="post">
+            <div class="form-group">
+                <label>Rating</label>
+                <div class="star-rating">
+                    @for (int i = 5; i >= 1; i--)
+                    {
+                        <input type="radio" id="star@(i)" name="rate" value="@i" required />
+                        <label for="star@(i)"><i class="far fa-star"></i></label>
+                    }
+                </div>
+            </div>
+            <div class="form-group mt-3">
+                <label for="comment">Comment</label>
+                <textarea class="form-control" id="comment" name="comment" rows="3" required maxlength="500"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Submit Review</button>
+        </form>
+    }
+</div> *@
+
+
+
+
+
+
+<script>
+    function changeQuantity(amount) {
+        var input = document.getElementById('sst');
+        var value = parseInt(input.value, 10);
+
+        if (!isNaN(value)) {
+            value += amount;
+            if (value < 1) value = 1; // Ensuring the quantity does not go below 1
+            input.value = value;
+        }
+    }
+</script>

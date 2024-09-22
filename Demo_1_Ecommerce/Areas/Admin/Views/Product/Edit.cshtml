@@ -1,0 +1,78 @@
+﻿@model Product
+
+@{
+
+    ViewBag.PageTitle = "Product Managment";
+    ViewBag.CardTitle = "Edit Product";
+
+    Layout = "_AdminLayout";
+
+    SelectList items = new SelectList(ViewBag.category, "id", "name");
+}
+
+@* <h1>Create</h1> *@
+<div class="row">
+    <div class="col-md-4">
+     <form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="img" />
+    <div class="from-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+            <div class="from-group">
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+            <div class="from-group">
+        <label asp-for="Price" class="control-label"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+            <div class="from-group">
+        <label asp-for="img" class="control-label"></label>
+        <input type="file" name="file" id="imgfile" class="form-control" />
+    </div>
+
+            <div class="from-group">
+        <label asp-for="CategoryId" class="control-label"></label>
+        <br />
+        <select asp-for="CategoryId" asp-items="items">
+
+            @* @* <option disabled selected value="@Model.CategoryId"> </option> *@
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-6 mt-3">
+        <input type="submit" class="btn btn-success" value="Save" />
+        <a asp-action="index" asp-controller="Product" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+    </form>
+   </div>
+    <div class="from-group">
+        <div class="container">
+            <img src="~/@Model.img" width="300px" height="300px">
+        </div>
+
+    </div>
+
+</div>
+@* <script src="~/lib/jquery-validation/dist/jquery"></script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script> *@
+
+@* لما بشغل الجزء بتاع البارشل  بيعمل
+client SIde validation  *@
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+}

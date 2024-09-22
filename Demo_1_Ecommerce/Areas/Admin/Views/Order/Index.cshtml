@@ -1,0 +1,30 @@
+﻿@model List<Product>
+@{
+
+    ViewBag.PageTitle = "Orders Managment";
+    ViewBag.CardTitle = "View Orders";
+
+    Layout = "_AdminLayout";
+}
+
+
+
+<br />
+<table id="productTable" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <td >Id</td>
+        <td>Name</td>
+        <td>Phone Number</td>
+        <td>Email</td>
+        <td>Order Status</td>
+        <td>Total</td>
+
+    </tr>
+    </thead>
+
+
+</table>
+@section Scripts{
+    <script  src="~/js/Order.js"></script>
+}

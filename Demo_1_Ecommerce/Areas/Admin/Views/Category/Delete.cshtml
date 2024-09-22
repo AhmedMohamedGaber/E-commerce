@@ -1,0 +1,36 @@
+﻿@{
+
+    ViewBag.PageTitle = "Category Managment";
+    ViewBag.CardTitle = "Delete Category";
+
+    Layout = "_AdminLayout";
+}
+
+
+
+@model Category
+
+<form method="post">
+    <input type="hidden" asp-for="id" />
+    <div class="mb-3">
+        <label asp-for="name"></label>
+        <input asp-for="name" disabled class="form-control" />
+        <span asp-validation-for="name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="description"></label>
+        <input asp-for="description" disabled class="form-control" />
+        <span asp-validation-for="description"></span>
+    </div>
+
+    <div class="mb-3">
+        <input  asp-action="DeleteCategory" asp-route-id="@Model.id" type="submit" class="btn btn-outline-danger" value="Delete" />
+        <input type="submit" class="btn btn-outline-primary" value="Cancel" asp-action="index" asp-controller="Category" />
+
+    </div>
+
+</form>
+
+
+

@@ -1,0 +1,85 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+
+}
+
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Login Page</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="~/Customer/Home/Index">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="~/Identity/Account/Login">Login</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+
+<section class="login_box_area section_gap">
+    <div class="container">
+        <div class="row">
+            <!-- Left side with image -->
+            <div class="col-lg-6">
+                <div class="login_box_img">
+                    <img class="img-fluid" src="~/MainEcommerce/img/login.jpg" alt="Login Image">
+                    <div class="hover">
+                        <h4>New to our website?</h4>
+                        <p>Join us today and enjoy our exclusive offers and services!</p>
+                        <a class="primary-btn" href="@Url.Page("./Register", new { returnUrl = Model.ReturnUrl })">Create an Account</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right side with login form -->
+            <div class="col-lg-6">
+                <div class="login_form_inner">
+                    <h3>Log in to enter</h3>
+                    <form class="row login_form"  method="post" id="contactForm" novalidate="novalidate">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <div class ="col-md-12 form-group">
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="Email" aria-required="true" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <input asp-for="Input.Password" type="password" class="form-control" autocomplete="current-password" placeholder="Password" aria-required="true" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <div class="creat_account">
+                                <input asp-for="Input.RememberMe" id="f-option2" name="selector" />
+                                <label for="f-option2">Keep me logged in</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <button type="submit" class="primary-btn w-100">Log In</button>
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <a asp-page="./ForgotPassword" class="d-block">Forgot Password?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,264 @@
+﻿@* @model ShoppingCartVM
+
+
+
+<!-- Start Banner Area -->
+<section class=" organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>
+                    Shop page
+                </h1>
+                <nav class="d-flex align-items-center">
+                    <a href="~//Customer/Home/Home">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="~/Customer/Cart">Shop</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mt-4">
+    <h2 class="mb-4">Your Shopping Cart</h2>
+    <div id="cart-content">
+        @if (Model.CartList.Any())
+        {
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.CartList)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="~/@item.Product.img" alt="@item.Product.Name" style="width: 50px; height: 50px; object-fit: cover;" class="me-3">
+                                                <span>@item.Product.Name</span>
+                                            </div>
+                                        </td>
+                                        <td>$@item.Product.Price.ToString("F2")</td>
+                                        <td>
+                                            <div class="input-group" style="width: 120px;">
+                                                <button class="btn btn-outline-secondary minus" type="button" data-cart-id="@item.ID">-</button>
+                                                <input type="text" class="form-control text-center quantity" value="@item.Count" readonly>
+                                                <button class="btn btn-outline-secondary plus" type="button" data-cart-id="@item.ID">+</button>
+                                            </div>
+                                        </td>
+                                        <td class="item-total">$@((item.Count * item.Product.Price).ToString("F2"))</td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm remove" data-cart-id="@item.ID">Remove</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <h4>Total: $<span id="cart-total">@Model.TotalCarts.ToString("F2")</span></h4>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Back to Shop</a>
+                        <a href="@Url.Action("Summary", "Cart")" class="btn btn-primary">Proceed to Checkout</a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">Your cart is empty.</div>
+        }
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="removeConfirmModal" tabindex="-1" aria-labelledby="removeConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeConfirmModalLabel">Confirm Removal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to remove this item from your cart?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmRemove">Remove</button>
+            </div>
+        </div>
+    </div>
+</div> *@
+
+
+
+
+
+
+@model ShoppingCartVM
+
+<!-- Start Banner Area -->
+<section class="organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Shop page</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="~/Customer/Home/Home">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="~/Customer/Cart">Shop</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="cart_inner">
+        <h2 class="mb-4">Your Shopping Cart</h2>
+        <div id="cart-content">
+            @if (Model.CartList.Any())
+
+            {
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CartList)
+
+
+
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="media">
+                                            <div class="d-flex">
+                                                <img src="~/@item.Product.img" alt="@item.Product.Name">
+                                            </div>
+                                            <div class="media-body">
+                                                <p>@item.Product.Name</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5>$@item.Product.Price.ToString("F2")</h5>
+                                    </td>
+                                    <td>
+                                        <div class="product_count">
+                                            <input id="sst" name="qty" value="1" type="text" maxlength="12" title="Quantity:" class="input-text qty" />
+
+                                            <button onclick="changeQuantity(1)" class="increase items-count" type="button">
+                                                <i class="lnr lnr-chevron-up"></i>
+                                            </button>
+                                            <button onclick="changeQuantity(-1)" class="reduced items-count" type="button">
+                                                <i class="lnr lnr-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="item-total">
+                                        <h5>$@((item.Count * item.Product.Price).ToString("F2"))</h5>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm remove" data-cart-id="@item.ID">Remove</button>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    <h4>Subtotal</h4>
+                                </td>
+                                <td>
+                                    <h4 class="text-success">$<span id="cart-total">@Model.TotalCarts.ToString("F2")</span></h4>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <a href="@Url.Action("Index", "Home")" class="primary-btn">Back to Shop</a>
+                    <a href="@Url.Action("Summary", "Cart")" class="primary-btn">Proceed to Checkout</a>
+                </div>
+            }
+
+            else
+
+            {
+                <div class="alert alert-info">Your cart is empty.</div>
+            }
+        </div>
+
+
+    </div>
+</div>
+
+<div class="modal fade" id="removeConfirmModal" tabindex="-1" aria-labelledby="removeConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeConfirmModalLabel">Confirm Removal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to remove this item from your cart?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmRemove">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="cart_area">
+    <div class="container">
+<div class="cart_inner">
+<div class="table-responsive">
+<table class="table">
+<tbody>
+
+</tbody>
+
+</table>
+</div>
+</div>
+    </div>
+</section>
+
+
+<script>
+    function changeQuantity(amount) {
+        var input = document.getElementById('sst');
+        var value = parseInt(input.value, 10);
+
+        if (!isNaN(value)) {
+            value += amount;
+            if (value < 1) value = 1; // Ensuring the quantity does not go below 1
+            input.value = value;
+        }
+    }
+</script>

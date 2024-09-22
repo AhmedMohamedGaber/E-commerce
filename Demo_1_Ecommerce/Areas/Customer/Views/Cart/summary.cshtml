@@ -1,0 +1,170 @@
+﻿@model ShoppingCartVM
+@using Demo_1_Ecommerce
+@using Microsoft.Extensions.Options
+@inject IOptions<StripeData> Stripe
+
+@{
+    var del = (long)((long)(Model.OrderHeader.TotalPrice) * 0.01);
+
+    Layout = "_Customer";
+}
+
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Summary Page</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="~/Customer/Home/Index">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="~/Customer/Cart/Summary">Login</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="review-wrapper card  " style="left: 20px;
+    right: 20px;
+  
+    width: 94%;
+    bottom: 36px;box-shadow: 0 0px 35px rgb(253 172 1);position: relative;">
+   
+    <div class="row" style="flex-direction: column;">
+        <form asp-action="Summary" asp-controller="Cart" method="post" class="d-flex flex-wrap">
+            <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-0 offset-md-2 offset-sm-1">
+                <h6 class="large">Billing Address</h6>
+                <div id="details" class="bg-white rounded pb-5">
+                    <div class="form-group">
+                        <label class="text-muted">Name</label>
+                    
+                        <input asp-for="OrderHeader.Name" class="form-control" required />
+                        <span asp-validation-for="OrderHeader.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-muted">Email</label>
+                        <div class="d-flex align-items-center rounded p-2">
+                            <span class="text-success pr-sm-2 pr-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop-window" viewBox="0 0 16 16">
+                                    <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5" />
+                                </svg>
+                            </span>
+
+                            <input asp-for="OrderHeader.Email" class="form-control" placeholder="example@gmail.com" required type="email" />
+                            <span asp-validation-for="OrderHeader.Email" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label>City</label>
+                            <div class="d-flex align-items-center rounded p-2">
+                              
+                                <span class="text-success pr-sm-2 pr-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop-window" viewBox="0 0 16 16">
+                                        <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5" />
+                                    </svg>
+                                </span>
+                                <input asp-for="OrderHeader.City" class="form-control" required />
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Phone Number</label>
+                            <div class="d-flex align-items-center rounded p-2">
+                               
+                                <span class="text-success pr-sm-2 pr-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop-window" viewBox="0 0 16 16">
+                                        <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5" />
+                                    </svg>
+                                </span>
+                                <input asp-for="OrderHeader.Phone" class="form-control" required
+                                       placeholder="(+20)xxxxxxxxxxx"
+                                       pattern="^\+20\d{10}$"
+                                       title="Phone number must be in the format: (+20)xxxxxxxxxxx" />
+                                <span asp-validation-for="OrderHeader.Phone" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <div class="d-flex align-items-center rounded p-2">
+
+                            <span class="text-success pr-sm-2 pr-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop-window" viewBox="0 0 16 16">
+                                <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5" />
+                            </svg>
+                        </span>
+                            <input asp-for="OrderHeader.Address" class="form-control" required />
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-0 offset-md-2 offset-sm-1 ">
+                <input type="hidden" asp-for="OrderHeader.TotalPrice" />
+                <input type="hidden" asp-for="@Model.CartList" />
+                <div id="cart" class="bg-white rounded">
+                    <h6>Cart Summary</h6>
+                    @foreach (var item in Model.CartList)
+
+                    {
+                        <div class="d-flex justify-content-between align-items-center pt-3 pb-2 border-bottom">
+                            <div class="item pr-2">
+                                <img src="~/@item.Product.img" alt="" width="80" height="80" />
+                                <div class="number">@item.Count</div>
+                            </div>
+                            <div class="d-flex flex-column px-3">
+                                <b class="h5">@item.Product.Name</b>
+                                <a href="#" class="h5 text-primary">@item.Product.CategoryId</a>
+                            </div>
+                            <div class="ml-auto"><b class="h5">@item.Product.Price</b></div>
+                        </div>
+                    }
+                
+                    <div class="d-flex align-items-center">
+                        <div class="display-5">Subtotal</div>
+                        <div class="ml-auto font-weight-bold">@Model.OrderHeader.TotalPrice</div>
+                    </div>
+                    <div class="d-flex align-items-center py-2 border-bottom">
+                        <div class="display-5">Tax</div>
+                        <div class="ml-auto font-weight-bold">$@del</div>
+                    </div>
+                    <div class="d-flex align-items-center py-2">
+                        <div class="display-5">Total</div>
+                        <div class="ml-auto d-flex">
+                            <div class="text-primary text-uppercase px-3">$USD</div>
+                            <div class="font-weight-bold">@(Model.OrderHeader.TotalPrice + @del)</div>
+                        </div>
+                    </div>
+                    <div class="row pt-lg-3 pt-2 mb-2">
+                        <div class="col-md-6 pt-md-0 pt-3 d-flex justify">
+                            <input type="submit" value="Order Now" class="primary-btn" style="border:none" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+     
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+       
+        <div>
+            <a href="/Customer" class="btn text-warning">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-square-fill" viewBox="0 0 16 16">
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm10.5 10V4a.5.5 0 0 0-.832-.374l-4.5 4a.5.5 0 0 0 0 .748l4.5 4A.5.5 0 0 0 10.5 12" />
+                </svg> Back
+            </a>
+        </div>
+        <div class="text-muted">
+            <span class="text-success pr-sm-2 pr-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-lock" viewBox="0 0 16 16">
+                    <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5v-1a2 2 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693Q8.844 9.002 8 9c-5 0-6 3-6 4m7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1" />
+                </svg>
+            </span> Your information is safe
+        </div>
+    </div>
+
+</div>

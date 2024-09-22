@@ -1,0 +1,476 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Demo_1_Ecommerce
+@using Microsoft.AspNetCore.Identity
+@inject IHttpContextAccessor httpContextAccessor
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+    
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="~/MainEcommerce/img/fav.png">
+    <!-- Author Meta -->
+    <meta name="author" content="CodePixar">
+
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>Karma Shop</title>
+    <!--
+        CSS
+        ============================================= -->
+    <link rel="stylesheet" href="~/MainEcommerce/css/linearicons.css">
+    <link rel="stylesheet" href="~/MainEcommerce/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/MainEcommerce/css/themify-icons.css">
+    <link rel="stylesheet" href="~/MainEcommerce/css/bootstrap.css">
+    <link rel="stylesheet" href="~/MainEcommerce/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/MainEcommerce/css/nice-select.css">
+    <link rel="stylesheet" href="~/MainEcommerce/css/nouislider.min.css">
+    <link rel="stylesheet" href="~/MainEcommerce/css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="~/MainEcommerce/css/ion.rangeSlider.skinFlat.css" />
+    <link rel="stylesheet" href="~/MainEcommerce/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/MainEcommerce/css/main.css">
+
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+        @if (User.Identity.IsAuthenticated)
+    { 
+
+    <button id="floating-cart-button" class="primary-btn  position-fixed" style="border:none; bottom: 20px; right: 20px; z-index: 1000;border-radius:10px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0m-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
+            </svg>
+        <span id="cart-item-count" class="badge bg-danger"></span>
+    </button>
+        <div id="floating-cart" class="position-fixed p-3 bg-white shadow-lg rounded border" style="width: 300px; display: none; top: 50px; right: 20px; z-index: 1000;">
+            <div class="cart-header d-flex justify-content-between align-items-center border-bottom pb-2">
+                <h5 class="m-0">Your Bag</h5>
+                <button type="button" class="btn close" id="close-cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
+                    </svg>
+                </button>
+            </div>
+            <div id="cart-items" class="mt-2" style="max-height: 200px; overflow-y: auto;">
+                <!-- Cart items will be dynamically inserted here -->
+            </div>
+            <div class="cart-footer mt-3 d-flex justify-content-between align-items-center border-top pt-2">
+                <div class="total h6">Total: $<span id="cart-total">0.00</span></div>
+                <a href="@Url.Action("Index", "Cart", new { area = "Customer" })" class="primary-btn btn-sm">View Bag</a>
+            </div>
+        </div>
+
+
+    }
+    <!-- Navigation-->
+    <header class="header_area sticky-header">
+        <div class="main_menu">
+            <nav class="navbar navbar-expand-lg navbar-light main_box">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <a class="navbar-brand logo_h" href="~/Customer/Home/Index"><img src="~/MainEcommerce/img/logo.png" alt="Logo"></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="~/Customer/Home/Index">Home</a>
+                            </li>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false">Shop</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+
+                            <!-- Authentication check -->
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="lnr lnr-user"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                        <li class="nav-item"><a class="nav-link"> Hello @User.Identity.Name</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#!">My Orders</a></li>
+
+                                        <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">Edit Profile</a></li>
+                                       
+                                        <li class="nav-item">
+                                            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
+                                                  asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                                <button id="logout" type="submit" class="dropdown-item">Logout</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                       aria-expanded="false">Account</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+                                        <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+
+                        <!-- Cart and Search icons -->
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
+                            <li class="nav-item">
+                                <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Search Input -->
+      @*   <div class="search_input" id="search_input_box">
+            <div class="container">
+                <form class="d-flex justify-content-between">
+                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+                    <button type="submit" class="btn"></button>
+                    <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+                </form>
+            </div>
+        </div> *@
+    </header>
+
+
+
+    <!-- Header-->
+    @if (!User.Identity.IsAuthenticated)
+    {
+    }
+    <!-- Section-->
+    @RenderBody()
+    <!-- Footer-->
+    <footer class="footer-area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>About Us</h6>
+                        <p style="color:gray">
+                            At EasyShopper, we strive to provide a seamless and enjoyable shopping experience for our customers. Our platform offers a wide range of products tailored to meet your needs, all at competitive prices.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>Newsletter</h6>
+                        <p style="color:gray">Stay updated with our latest</p>
+                        <div id="newsletter_signup">
+                            <form action="~/Identity/Account/Register" method="get" class="form-inline">
+                                <div class="d-flex flex-row">
+                                    <input class="form-control" name="email" placeholder="Enter Email"
+                                           onfocus="this.placeholder = ''"
+                                           onblur="this.placeholder = 'Enter Email '"
+                                           required type="email">
+                                    <button class="click-btn btn btn-default" type="submit">
+                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget mail-chimp">
+                        <h6 class="mb-20">Instragram Feed</h6>
+                        <ul class="instafeed d-flex flex-wrap">
+                            <li><img src="~/MainEcommerce/img/i1.jpg" alt=""></li>
+                            <li><img src="~/MainEcommerce/img/i2.jpg" alt=""></li>
+                            <li><img src="~/MainEcommerce/img/i3.jpg" alt=""></li>
+                            <li><img src="~/MainEcommerce/img/i4.jpg" alt=""></li>
+                            <li><img src="~/MainEcommerce/img/i5.jpg" alt=""></li>
+                            <li><img src="~/MainEcommerce/img/i6.jpg" alt=""></li>
+                            <li><img src="~/MainEcommerce/img/i7.jpg" alt=""></li>
+                            <li><img src="~/MainEcommerce/img/i8.jpg" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>Follow Us</h6>
+                        <p style="color:gray">Let us be social</p>
+                        <div class="footer-social d-flex align-items-center">
+                            <a style="color:gray" href="https://www.facebook.com/ahmed.elhmzay" target="_blank" rel="noopener noreferrer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+                                </svg>
+                            </a>
+                            <a style="color:gray" href="https://www.linkedin.com/in/ahmed-mohamed-gaber-65bb39238/" target="_blank" rel="noopener noreferrer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z" />
+                                </svg>
+                            </a>
+                            <a style="color:gray" href="https://github.com/AhmedMohamedGaber" target="_blank" rel="noopener noreferrer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8" />
+                                </svg>
+                            </a>
+                            <a style="color:gray" href="https://ahmedmohamedgaber.github.io/Portfolio-/#home" target="_blank" rel="noopener noreferrer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                </svg>
+                            </a>
+                            <a style="color:gray" href="https://bento.me/ahmedmohamedgaber" target="_blank" rel="noopener noreferrer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-behance" viewBox="0 0 16 16">
+                                    <path d="M4.654 3c.461 0 .887.035 1.278.14.39.07.711.216.996.391s.497.426.641.747c.14.32.216.711.216 1.137 0 .496-.106.922-.356 1.242-.215.32-.566.606-.997.817.606.176 1.067.496 1.348.922s.461.957.461 1.563c0 .496-.105.922-.285 1.278a2.3 2.3 0 0 1-.782.887c-.32.215-.711.39-1.137.496a5.3 5.3 0 0 1-1.278.176L0 12.803V3zm-.285 3.978c.39 0 .71-.105.957-.285.246-.18.355-.497.355-.887 0-.216-.035-.426-.105-.567a1 1 0 0 0-.32-.355 1.8 1.8 0 0 0-.461-.176c-.176-.035-.356-.035-.567-.035H2.17v2.31c0-.005 2.2-.005 2.2-.005zm.105 4.193c.215 0 .426-.035.606-.07.176-.035.356-.106.496-.216s.25-.215.356-.39c.07-.176.14-.391.14-.641 0-.496-.14-.852-.426-1.102-.285-.215-.676-.32-1.137-.32H2.17v2.734h2.305zm6.858-.035q.428.427 1.278.426c.39 0 .746-.106 1.032-.286q.426-.32.53-.64h1.74c-.286.851-.712 1.457-1.278 1.848-.566.355-1.243.566-2.06.566a4.1 4.1 0 0 1-1.527-.285 2.8 2.8 0 0 1-1.137-.782 2.85 2.85 0 0 1-.712-1.172c-.175-.461-.25-.957-.25-1.528 0-.531.07-1.032.25-1.493.18-.46.426-.852.747-1.207.32-.32.711-.606 1.137-.782a4 4 0 0 1 1.493-.285c.606 0 1.137.105 1.598.355.46.25.817.532 1.102.958.285.39.496.851.641 1.348.07.496.105.996.07 1.563h-5.15c0 .58.21 1.11.496 1.396m2.24-3.732c-.25-.25-.642-.391-1.103-.391-.32 0-.566.07-.781.176s-.356.25-.496.39a.96.96 0 0 0-.25.497c-.036.175-.07.32-.07.46h3.196c-.07-.526-.25-.882-.497-1.132zm-3.127-3.728h3.978v.957h-3.978z" />
+                                </svg>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+                <p class="footer-text m-0" style="color:gray">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Developed by <a href="https://www.linkedin.com/in/ahmed-mohamed-gaber-65bb39238/" target="_blank"> Ahmed Mohamed</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="~/MainEcommerce/js/vendor/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+    <script src="~/MainEcommerce/js/vendor/bootstrap.min.js"></script>
+    <script src="~/MainEcommerce/js/jquery.ajaxchimp.min.js"></script>
+    <script src="~/MainEcommerce/js/jquery.nice-select.min.js"></script>
+    <script src="~/MainEcommerce/js/jquery.sticky.js"></script>
+    <script src="~/MainEcommerce/js/nouislider.min.js"></script>
+    <script src="~/MainEcommerce/js/countdown.js"></script>
+    <script src="~/MainEcommerce/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/MainEcommerce/js/owl.carousel.min.js"></script>
+    <!--gmaps Js-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+    <script src="~/MainEcommerce/js/gmaps.min.js"></script>
+    <script src="~/MainEcommerce/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="~/Customer/js/scripts.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    
+    @if (User.Identity.IsAuthenticated){
+        <script>
+            $(document).ready(function () {
+                const updateCart = (cartId, action) => {
+                    $.ajax({
+                        url: `/Customer/Cart/${action}`,
+                        type: 'POST',
+                        data: { cartId },
+                        success: (response) => {
+                            $('#cart-wrapper').html(response);
+                            updateFloatingCart();
+                        },
+                        error: () => {
+                            toastr.error('An error occurred. Please try again.');
+                        }
+                    });
+                };
+
+                const toggleCart = () => {
+                    $('#floating-cart').toggle();
+                };
+
+                const updateFloatingCart = () => {
+                    $.ajax({
+                        url: '/Customer/Cart/GetCartItems',
+                        type: 'GET',
+                        success: (response) => {
+                            $('#cart-items').html(response.cartItemsHtml);
+                            $('#cart-total').text(response.total.toFixed(2));
+                            $('#cart-item-count').text(response.itemCount);
+                            $('#floating-cart-button').toggleClass('d-none', response.itemCount === 0);
+                        },
+                        error: () => {
+                            toastr.error('Failed to update cart.');
+                        }
+                    });
+                };
+
+                $(document).on('click', '.plus, .minus', function () {
+                    const cartId = $(this).data('cart-id');
+                    const action = $(this).hasClass('plus') ? 'Plus' : 'Minus';
+                    updateCart(cartId, action);
+                });
+
+                $(document).on('click', '.remove', function () {
+                    const cartId = $(this).data('cart-id');
+                    updateCart(cartId, 'Remove');
+                });
+
+                $('#floating-cart-button').click(toggleCart);
+                $('#close-cart').click(toggleCart);
+
+                $(document).on('click', '.add-to-cart', function (e) {
+                    e.stopPropagation();
+                    const productId = $(this).data('product-id');
+                    const quantity = $('#prdcuntdeta').val() || 1;
+
+                    $.post('/Customer/Home/AddToCart', { productId, quantity }, (data) => {
+                        if (data.success) {
+                            toastr.success(data.message, 'Success');
+                            updateFloatingCart();
+                        } else {
+                            toastr.error(data.message, 'Error');
+                        }
+                    });
+                });
+
+                $(document).on('click', '.product-card', function () {
+                    const productId = $(this).data('product-id');
+                    window.location.href = `/Customer/Home/Details?ProductID=${productId}`;
+                });
+
+                // Initial cart update
+                updateFloatingCart();
+            });
+        </script>
+
+       @*  <script>
+            $(document).ready(function () {
+            function updateCart(cartId, action) {
+                $.ajax({
+                    url: '/Customer/Cart/' + action,
+                    type: 'POST',
+                    data: { cartId: cartId },
+                    success: function (response) {
+                        $('#cart-wrapper').html(response);
+                        updateFloatingCart();
+                    },
+                    error: function () {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            }
+            function toggleCart() {
+                $('#floating-cart').toggle();
+            }
+
+
+            $('#floating-cart-button').click(function () {
+
+                toggleCart();
+
+            });
+
+
+            $('#close-cart').click(function () {
+                toggleCart();
+            });
+
+
+            function updateFloatingCart() {
+                $.ajax({
+                    url: '/Customer/Cart/GetCartItems',
+                    type: 'GET',
+                    success: function (response) {
+                        $('#cart-items').html(response.cartItemsHtml);
+                        $('#cart-total').text(response.total.toFixed(2));
+                        $('#cart-item-count').text(response.itemCount);
+                        if (response.itemCount > 0) {
+                            $('#floating-cart-button').removeClass('d-none');
+                        } else {
+                            $('#floating-cart-button').addClass('d-none');
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Failed to update cart.');
+                    }
+                });
+            }
+
+            $(document).on('click', '.plus, .minus', function () {
+                var cartId = $(this).data('cart-id');
+                var action = $(this).hasClass('plus') ? 'Plus' : 'Minus';
+                updateCart(cartId, action);
+            });
+
+            $(document).on('click', '.remove', function () {
+                var cartId = $(this).data('cart-id');
+                updateCart(cartId, 'Remove');
+            });
+
+            updateFloatingCart();
+
+                $(document).on('click', '.add-to-cart', function (e) {
+                    e.stopPropagation();
+                    var productId = $(this).data('product-id');
+                    var CountDet = $('#prdcuntdeta')[0] ? $('#prdcuntdeta')[0].value :1
+
+                    $.post('/Customer/Home/AddToCart', { productId: productId, quantity: CountDet }, function (data) {
+                        if (data.success) {
+
+                            toastr.success(data.message, 'Success');
+                            updateFloatingCart();
+                        } else {
+                            toastr.error(data.message, 'Error');
+                        }
+                    });
+                });
+
+                $(document).on('click', '.product-card', function () {
+                    var productId = $(this).data('product-id');
+                    window.location.href = '/Customer/Home/Details?ProductID=' + productId;
+                });
+            });
+        </script> *@
+        
+    }
+</body>
+</html>

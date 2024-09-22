@@ -1,0 +1,18 @@
+﻿@model ShoppingCartVM
+
+@foreach (var item in Model.CartList)
+{
+    <div class="cart-item">
+        <div style="display:grid; gap:3px;grid-auto-rows:15px">
+            <button style="padding:0px;display:flex;align-items:center;justify-content:center" class="btn btn-outline-secondary minus" type="button" data-cart-id="@item.ID"><span>-</span></button>
+            <button style="padding:0px;display:flex;align-items:center;justify-content:center" class="btn btn-outline-secondary plus" type="button" data-cart-id="@item.ID"><span>+</span></button>
+        </div>
+        <div>
+            <span>@item.Product.Name</span>
+            <span>x @item.Count</span>
+        </div>
+        <span>$@((item.Product.Price * item.Count).ToString("F2"))</span>
+        <button class="btn btn-danger btn-sm remove" data-cart-id="@item.ID">X</button>
+    </div>
+}
+

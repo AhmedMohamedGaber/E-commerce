@@ -1,0 +1,31 @@
+﻿@* @model int
+@{
+    ViewData["Title"] = "OrderConfirmation";
+}
+
+<h1>OrderConfirmation</h1>
+
+
+<div class="container row">
+    <div class="col-12">
+        <h3>Order Confirmation</h3>
+        <br />
+        <hr />
+        <h2>Your Order Number @Model Has Been Successfully Placed</h2>
+    </div>
+</div> *@
+@model int
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3>Order Confirmation</h3>
+            <br />
+            <hr />
+            <h2>Your Order Number @Model Has Been Successfully Placed!</h2>
+            <p>Thank you for your order. We appreciate your business!</p>
+            <p>If you have any questions, feel free to contact us.</p>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Return to Home</a>
+        </div>
+    </div>
+</div>
