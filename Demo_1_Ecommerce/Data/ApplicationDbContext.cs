@@ -1,4 +1,5 @@
-﻿using Demo_1_Ecommerce.ViewModels;
+﻿using Demo_1_Ecommerce.Models;
+using Demo_1_Ecommerce.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -21,19 +22,36 @@ namespace Demo_1_Ecommerce.Data
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<Contact> Contacts { get; set; }
 
+
+       // public DbSet<ProductImage> ProductImages { get; set; } // Add this line
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder); // Ensure to call the base method
 
-            // You can configure relationships and keys here as needed
+            // Composite Key Configuration
             modelBuilder.Entity<OrderDetail>()
-                .HasKey(od => new { od.OrderId, od.ProductId }); // Example composite key, modify as needed
+                .HasKey(od => new { od.OrderId, od.ProductId });
 
-            // Configure any additional properties or relationships
+            // Decimal Property Configurations
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)"); // Adjust based on your needs
+
+            modelBuilder.Entity<OrderHeader>()
+                .Property(oh => oh.TotalPrice)
+                .HasColumnType("decimal(18,2)"); // Adjust based on your needs
+
+            modelBuilder.Entity<OrderDetail>()
+                .Property(od => od.Price)
+                .HasColumnType("decimal(18,2)"); // Adjust based on your needs
+
+            // Identity Column Configuration
             modelBuilder.Entity<OrderDetail>()
                 .Property(od => od.OrderId)
-                .ValueGeneratedOnAdd(); // If OrderId is identity, ensure it's configured correctly
+                .ValueGeneratedOnAdd(); // Ensure it's marked as an identity column
+           
         }
 
 

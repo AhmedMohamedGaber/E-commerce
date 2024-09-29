@@ -1,30 +1,63 @@
-﻿@model List<Product>
-@{
+﻿@model IEnumerable<Demo_1_Ecommerce.ViewModels.OrderHeader>
 
-    ViewBag.PageTitle = "Orders Managment";
+@{
+    ViewBag.PageTitle = "Order Management";
+
     ViewBag.CardTitle = "View Orders";
 
     Layout = "_AdminLayout";
 }
 
-
-
+<div>
+    <a asp-action="Create" asp-controller="Order" class="btn btn-primary">Create New Order</a>
+</div>
 <br />
-<table id="productTable" class="table table-bordered table-hover">
+<table class="table table-hover">
     <thead>
-    <tr>
-        <td >Id</td>
-        <td>Name</td>
-        <td>Phone Number</td>
-        <td>Email</td>
-        <td>Order Status</td>
-        <td>Total</td>
-
-    </tr>
+        <tr>
+            <th>Order ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Order Status</th>
+            <th>Total Price</th>
+            <th>Actions</th>
+        </tr>
     </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
 
+        {
 
+            foreach (var order in Model)
+
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.Name</td>
+                    <td>@order.Email</td>
+                    <td>@order.Phone</td>
+                    <td>@order.Address</td>
+                    <td>@order.City</td>
+                    <td>@order.OrderStatus</td>
+                    <td>@order.TotalPrice.ToString("C")</td>
+                    <td>
+                        <a asp-action="Details" asp-route-orderid="@order.Id" asp-controller="Order" class="btn btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-orderid="@order.Id" asp-controller="Order" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        }
+
+        else
+
+        {
+            <tr>
+                <td colspan="9" class="text-center">No orders found.</td>
+            </tr>
+        }
+    </tbody>
 </table>
-@section Scripts{
-    <script  src="~/js/Order.js"></script>
-}

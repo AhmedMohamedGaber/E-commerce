@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Demo_1_Ecommerce.Reposatories;
 using Demo_1_Ecommerce;
 using Demo_1_Ecommerce.ViewModels;
+using Demo_1_Ecommerce.Models;
 
 namespace Demo_1_Ecommerce.Areas.Admin.Controllers
 {
@@ -28,8 +29,8 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
         }
         public IActionResult getData()
         {
-            var product = _unitOfWork.Product.GetAll(icludeWord:"Category");
-            return Json(new {data=product});
+            var product = _unitOfWork.Product.GetAll(icludeWord: "Category");
+            return Json(new { data = product });
         }
         [HttpGet]
         public IActionResult Create()
@@ -38,10 +39,10 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
             var categorySelectList = _unitOfWork.Category.GetAll().Select(c => new SelectListItem
             {
                 Value = c.id.ToString(),
-                Text = c.name 
-            }).ToList(); 
-    
-   
+                Text = c.name
+            }).ToList();
+
+
 
             ViewData["CategorySelectList"] = categorySelectList;
             return View("Create", new Product());
@@ -49,9 +50,9 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Product productFReq,IFormFile file)
+        public IActionResult Create(Product productFReq, IFormFile file)
         {
-           
+
             if (ModelState.IsValid)
             {
                 string RootPath = _webHostEnvironment.WebRootPath;
@@ -81,7 +82,7 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            if (id == null|id == 0)
+            if (id == null | id == 0)
             {
                 return NotFound();
             }
@@ -96,15 +97,15 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
 
             //};
 
-            var product = _unitOfWork.Product.GetByID(x=>x.Id==id);
-            var categorylist=_unitOfWork.Category.GetAll();
-            ViewBag.category=categorylist;
+            var product = _unitOfWork.Product.GetByID(x => x.Id == id);
+            var categorylist = _unitOfWork.Category.GetAll();
+            ViewBag.category = categorylist;
             return View(product);
-              
+
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Product product,IFormFile? file)
+        public IActionResult Edit(Product product, IFormFile? file)
         {
 
             string RootPath = _webHostEnvironment.WebRootPath;
@@ -114,14 +115,15 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
                 var upload = Path.Combine(RootPath, @"");
                 var ext = Path.GetExtension(file.FileName);
 
-                if (product.img != null) { 
-                
-                    var oldimg= Path.Combine(RootPath,product.img.TrimStart('\\'));
+                if (product.img != null)
+                {
+
+                    var oldimg = Path.Combine(RootPath, product.img.TrimStart('\\'));
                     if (System.IO.File.Exists(oldimg))
                     {
                         System.IO.File.Delete(oldimg);
                     }
-                
+
                 }
 
 

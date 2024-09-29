@@ -1,5 +1,5 @@
-﻿    @model IEnumerable<Product>
-
+﻿@using Demo_1_Ecommerce.Models
+@model IEnumerable<Demo_1_Ecommerce.Models.Product>
     @{
         ViewData["Title"] = "Home Page";
     }
@@ -39,7 +39,7 @@
                     Shop page
                 </h1>
                 <nav class="d-flex align-items-center">
-                    <a href="~/Customer/Home/Index">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="~/">Home<span class="lnr lnr-arrow-right"></span></a>
                     <a href="~/Customer/Home/Home">Shop</a>
                 </nav>
             </div>
@@ -146,7 +146,7 @@
         @foreach (var product in Model)
 
         {
-            <div class="col-md-6 col-lg-6 col-xl-4 my-card">
+            <div class="col-md-6 col-lg-6 col-xl-4 my-card ">
                 <div class="single-product h-100" data-product-id="@product.Id">
                     <!-- Product Image -->
                     <img class="img-fluid w-100 rounded-top hover-image" src="~/@product.img" alt="@product.Name" data-bs-toggle="modal" data-bs-target="#imageModal-@product.Id">

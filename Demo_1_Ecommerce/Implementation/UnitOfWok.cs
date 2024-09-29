@@ -21,7 +21,9 @@ namespace Demo_1_Ecommerce.Implementation
         public IOrderDetailRepo OrderDetail { get; private set; }
         public IApplicationUserRepo ApplicationUser { get; private set; }
         public IReviewRepo Reviews { get; private set; } // Add this line
+        public IContactRepo Contact { get; private set; }
 
+      //  public IProductImageRepo ProductImage { get; private set; }
         public UnitOfWok (ApplicationDbContext context) 
         {
             _context = context;
@@ -32,6 +34,8 @@ namespace Demo_1_Ecommerce.Implementation
             OrderDetail=new OredrDetailRepo(context);
             ApplicationUser=new ApplicationUserRepo(context);
             Reviews = new ReviewRepo(_context); // Initialize Reviews here
+            Contact=new ContactRepo(context);
+          //  ProductImage=new ProductImageRepo(context);
 
         }
 

@@ -4,10 +4,17 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	 <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
   </PropertyGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+	  <!--<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="x.x.x" />
+	  <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="x.x.x" />-->
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.8" />
@@ -21,6 +28,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
     <PackageReference Include="Stripe.net" Version="45.15.0-beta.1" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity" Version="8.0.8" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
 	
   </ItemGroup>
 	

@@ -6,6 +6,7 @@ using Demo_1_Ecommerce.Reposatories;
 using Demo_1_Ecommerce.ViewModels;
 using Demo_1_Ecommerce.ViewModels;
 using Demo_1_Ecommerce;
+using Demo_1_Ecommerce.Models;
 
 namespace Demo_1_Ecommerce.Areas.Customer.Controllers
 {
@@ -17,6 +18,35 @@ namespace Demo_1_Ecommerce.Areas.Customer.Controllers
         {
             this.unitOfWork = unitOfWork;
         }
+
+        [HttpGet]
+        public IActionResult Contact()
+        {
+            return View(); // Return the Contact view
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Contact(Contact contact)
+        {
+            if (ModelState.IsValid)
+            {
+                contact.CreatedAt = DateTime.Now;
+                unitOfWork.Contact.add(contact); // Save contact message
+                unitOfWork.complete();
+
+                TempData["Type"] = "success";
+                TempData["Message"] = "Your message has been sent successfully!";
+                return RedirectToAction("Contact"); // Redirect to the Contact page
+            }
+
+            return View(contact); // Return the same view with the model if validation fails
+        }
+
+
+
+
+
         public IActionResult Index()
         {
             var viewModel = new HomeViewModel()

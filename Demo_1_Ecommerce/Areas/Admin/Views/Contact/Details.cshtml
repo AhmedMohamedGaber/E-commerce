@@ -1,0 +1,20 @@
+﻿@model Demo_1_Ecommerce.Models.Contact
+@{
+
+    ViewBag.PageTitle = "Detail Of Message";
+    ViewBag.CardTitle = "View Detail";
+
+    Layout = "_AdminLayout";
+}
+
+<h2>Contact Details</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Subject:</strong> @Model.Subject</p>
+    <p><strong>Message:</strong> @Model.Message</p>
+    <p><strong>Created At:</strong> @Model.CreatedAt.ToString("g")</p>
+</div>
+
+<a asp-action="Index">Back to List</a>

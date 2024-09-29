@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Demo_1_Ecommerce.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

@@ -9,6 +9,26 @@
    
     <style>
 
+        .single-top-offer {
+            position: relative;
+            text-align: center;
+        }
+
+        .product-details {
+            padding: 15px;
+        }
+
+        .price {
+            margin-bottom: 10px;
+        }
+
+        .l-through {
+            text-decoration: line-through;
+        }
+
+        .add-bag {
+            margin-top: 10px;
+        }
 
 
 
@@ -264,14 +284,77 @@
 } *@
 
 <!-- start banner Area -->
-<section class="banner-area">
+<section class="banner-area mt-5">
     <div class="container">
         <div class="row fullscreen align-items-center justify-content-start">
             <div class="col-lg-12">
               @*   <div class="active-banner-slider owl-carousel"> *@
                     <div class="owl-carousel testimonial-carousel">
                     <!-- single-slide -->
-                    <div class="row single-slide align-items-center d-flex">
+                    @if (Model.NewArrivals != null && Model.NewArrivals.Count > 0 )
+                    
+                    {
+
+                        var latestProduct1 = Model.NewArrivals[0];
+                        <div class="row single-slide align-items-center d-flex">
+                            <div class="col-lg-5 col-md-6">
+                                <div class="banner-content">
+                                    <h1>@latestProduct1.Name</h1>
+                                    <p>
+                                        @latestProduct1.Description
+                                    </p>
+                                    <div class="add-bag d-flex align-items-center">
+                                        <a class="add-btn" href="~/Customer/Home/Home"><span class="lnr lnr-cross"></span></a>
+                                        <span class="add-text text-uppercase">Shop Now</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="banner-img">
+                                    <img class="img-fluid" src="@latestProduct1.img" alt="@latestProduct1.Name">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- single-slide -->
+                        <!-- Slide 2 -->
+                        @if (Model.NewArrivals.Count > 1)
+
+                        {
+                            var latestProduct2 = Model.NewArrivals[1];
+                            <div class="row single-slide">
+                                <div class="col-lg-5">
+                                    <div class="banner-content">
+                                        <h1>@latestProduct2.Name</h1>
+                                        <p>
+                                            @latestProduct2.Description
+                                        </p>
+                                        <div class="add-bag d-flex align-items-center">
+                                            <a class="add-btn" href="~/Customer/Home/Home"><span class="lnr lnr-cross"></span></a>
+                                            <span class="add-text text-uppercase">Shop Now</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="banner-img">
+                                        <img class="img-fluid" src="@latestProduct2.img" alt="@latestProduct2.Name">
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+                  @*   <div class="row single-slide align-items-center d-flex">
                         <div class="col-lg-5 col-md-6">
                             <div class="banner-content">
                                 <h1>Nike New <br>Collection!</h1>
@@ -311,7 +394,7 @@
                                 <img class="img-fluid" src="~/MainEcommerce/img/banner/banner-img.png" alt="">
                             </div>
                         </div>
-                    </div>
+                    </div> *@
                 </div>
             </div>
         </div>
@@ -389,65 +472,90 @@
 
 
 
+<!-- Start Top Offers Area -->
+<section class="exclusive-deal-area">
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-6 no-padding exclusive-left">
+                <div class="row clock_sec clockdiv" id="clockdiv">
+                    <div class="col-lg-12">
+                        <h1>Top Offers Available Now!</h1>
+                        <p>Don't miss out on these exclusive deals!</p>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="row clock-wrap">
+                            <div class="col clockinner1 clockinner">
+                                <h1 class="days">150</h1>
+                                <span class="smalltext">Days</span>
+                            </div>
+                            <div class="col clockinner clockinner1">
+                                <h1 class="hours">23</h1>
+                                <span class="smalltext">Hours</span>
+                            </div>
+                            <div class="col clockinner clockinner1">
+                                <h1 class="minutes">47</h1>
+                                <span class="smalltext">Mins</span>
+                            </div>
+                            <div class="col clockinner clockinner1">
+                                <h1 class="seconds">59</h1>
+                                <span class="smalltext">Secs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Home",  new { area = "Customer" })" class="primary-btn">Shop Now</a>
+            </div>
+            <div class="col-lg-6 no-padding exclusive-right">
+                <div class=" active-top-offers-slider owl-carousel ml-5" style="width: 600px;">
+                 
+                    @foreach (var product in Model.TopOffers)
 
-<!-- Top Offers -->
-<section class="section top-offers">
-    <div class="container-fluid container-lg">
-        <h2 class="section-title">Top Offers</h2>
-        <div class="owl-carousel product-carousel">
-            @foreach (var product in Model.TopOffers)
-            {
-                <div class="item">
-                    <div class="card h-100">
-                        <div class="product-badge badge-sale">Sale</div>
-                        <img src="~/@(string.IsNullOrEmpty(product.img) ? $"https://via.placeholder.com/400x300/f39c12/ffffff?text={product.Name}" : product.img)" class="card-img-top" alt="@product.Name">
-                        <div class="card-body">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text">
-                                <span class="text-danger">$@product.Price.ToString("F2")</span>
-                                <span class="text-muted"><del>$@((product.Price * 1.2m).ToString("F2"))</del></span>
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="@Url.Action("Details", "Home", new { area = "Customer", ProductID = product.Id })" class="btn btn-primary">View Details</a>
-                                <div class="d-flex align-items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                    <span class="ms-1">@ViewBag.AverageRatings[product.Id].ToString("F1")</span>
+                    {
+                        <div class="single-top-offer">
+                            <img src="~/@(string.IsNullOrEmpty(product.img) ? $"https://via.placeholder.com/400x300/f39c12/ffffff?text={product.Name}" : product.img)" class="img-fluid" alt="@product.Name">
+                            <div class="product-details">
+                                <div class="price">
+                                    <h6 class="text-danger">$@product.Price.ToString("F2")</h6>
+                                    <h6 class="l-through text-muted">
+                                        <del>$@((product.Price * 1.2m).ToString("F2"))</del>
+                                    </h6>
+                                </div>
+                                <h4>@product.Name</h4>
+                                <div class="add-bag d-flex align-items-center justify-content-center">
+                                    <a class="add-btn" href="@Url.Action("Details", "Home", new { area = "Customer", ProductID = product.Id })">
+                                        <span class="ti-bag"></span>
+                                    </a>
+                                    <span class="add-text text-uppercase">Add to Bag</span>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
     </div>
 </section>
+
+
 
 <!-- New Arrivals -->
-<section class="section new-arrivals">
-    <div class="container-fluid container-lg">
-        <h2 class="section-title">New Arrivals</h2>
-        <div class="owl-carousel product-carousel">
+<section class="features-area section_gap">
+    <div class="container">
+        <h2 >New Arrivals</h2>
+        <div class="row justify-content-center">
             @foreach (var product in Model.NewArrivals)
             {
-                <div class="item">
-                    <div class="card h-100">
-                        <div class="product-badge badge-new">New</div>
-                        <img src="~/@(string.IsNullOrEmpty(product.img) ? $"https://via.placeholder.com/400x300/2ecc71/ffffff?text={product.Name}" : product.img)" class="card-img-top" alt="@product.Name">
-                        <div class="card-body">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text">$@product.Price.ToString("F2")</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                            <a href="@Url.Action("Details", "Home", new { area = "Customer", ProductID = product.Id })" class="btn btn-primary">View Details</a>
-                            <div class="d-flex align-items-center">
-                                    <svg style="color:#ff9e00" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                <span class="ms-1">@ViewBag.AverageRatings[product.Id].ToString("F1")</span>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-deal">
+                        <div class="overlay"></div>
+                        <img src="~/@(string.IsNullOrEmpty(product.img) ? $"https://via.placeholder.com/400x300/2ecc71/ffffff?text={product.Name}" : product.img)" class="img-fluid w-100" alt="@product.Name">
+                        <a href="@Url.Action("Details", "Home", new { area = "Customer", ProductID = product.Id })" class="img-pop-up" target="_blank">
+                            <div class="deal-details">
+                                <a href="@Url.Action("Details", "Home", new { area = "Customer", ProductID = product.Id })"  target="_blank">
+                                    <h6 class="deal-title">@product.Name</h6>
+                                </a>
                             </div>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             }
@@ -455,36 +563,55 @@
     </div>
 </section>
 
+
+
+
+
+
+
 <!-- Popular Products -->
-<section class="section popular-products">
-    <div class="container-fluid container-lg">
-        <h2 class="section-title">Popular Products</h2>
-        <div class="owl-carousel product-carousel">
+<section class="  section_gap">
+    <div class="single-product-slider">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div>
+                    <h1>Popular Products</h1>
+                    <p>Check out our best-selling items!</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             @foreach (var product in Model.PopularProducts)
             {
-                <div class="item">
-                    <div class="card h-100">
-                        <div class="product-badge badge-popular">Popular</div>
-                        <img src="~/@(string.IsNullOrEmpty(product.img) ? $"https://via.placeholder.com/400x300/e74c3c/ffffff?text={product.Name}" : product.img)" class="card-img-top" alt="@product.Name">
-                        <div class="card-body">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text">$@product.Price.ToString("F2")</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                            <a href="@Url.Action("Details", "Home", new { area = "Customer", ProductID = product.Id })" class="btn btn-primary">View Details</a>
-                            <div class="d-flex align-items-center">
-                                    <svg style="color:#ff9e00" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                <span class="ms-1">@ViewBag.AverageRatings[product.Id].ToString("F1")</span>
+                <div class="col-lg-3 col-md-6">
+                    <div class="single-product">
+                        <img class="img-fluid" src="~/@(string.IsNullOrEmpty(product.img) ? $"https://via.placeholder.com/400x300/e74c3c/ffffff?text={product.Name}" : product.img)" alt="@product.Name">
+                        <div class="product-details">
+                            <h6>@product.Name</h6>
+                            <div class="price">
+                                <h6>$@product.Price.ToString("F2")</h6>
                             </div>
+                            <div class="prd-bottom">
+                                <a href="@Url.Action("Details", "Home", new { area = "Customer", ProductID = product.Id })" class="social-info">
+                                    <span class="ti-bag"></span>
+                                    <p class="hover-text">Add to Bag</p>
+                                </a>
+                               
+                                <a href="@Url.Action("Details", "Home", new { area = "Customer", ProductID = product.Id })" class="social-info">
+                                    <span class="lnr lnr-move"></span>
+                                    <p class="hover-text">View More</p>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             }
         </div>
+        </div>
     </div>
 </section>
+
 
 <!-- Testimonials -->
 <section class="section testimonial-section">
@@ -515,42 +642,27 @@
     </div>
 </section>
 
-<!-- Newsletter -->
-<section class="newsletter-section">
-    <div class="container text-center">
-        <h2 class="section-title">Join Our Newsletter</h2>
-        <p class="mb-4">Subscribe to receive updates, access to exclusive deals, and more.</p>
-        <form class="newsletter-form">
-            <div class="input-group mb-3">
-                <input type="email" class="form-control" placeholder="Enter your email" aria-label="Email" aria-describedby="button-addon2">
-                <div class="input-group-append">
-                    <button class="btn btn-primary xbtn" type="button" id="button-addon2">Subscribe</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
-
-<!-- Brand Showcase -->
-<section class="brand-section">
+<!-- Brand Showcase --><!-- Start brand Area -->
+<section class="brand-area section_gap">
     <div class="container">
         <h2 class="section-title">Our Brands</h2>
-        <div class="owl-carousel brand-carousel">
-            <div class="brand-item">
-                <img src="https://via.placeholder.com/150x80/4a90e2/ffffff?text=Samsung" alt="Brand 1">
-            </div>
-            <div class="brand-item">
-                <img src="https://via.placeholder.com/150x80/4a90e2/ffffff?text=Apple" alt="Brand 2">
-            </div>
-            <div class="brand-item">
-                <img src="https://via.placeholder.com/150x80/4a90e2/ffffff?text=LG" alt="Brand 3">
-            </div>
-            <div class="brand-item">
-                <img src="https://via.placeholder.com/150x80/4a90e2/ffffff?text=DELL" alt="Brand 4">
-            </div>            
-            <div class="brand-item">
-                <img src="https://via.placeholder.com/150x80/4a90e2/ffffff?text=HP" alt="Brand 5">
-            </div>
+        <div class="row">
+
+            <a class="col single-img" href="#">
+                <img class="img-fluid d-block mx-auto" src="~/MainEcommerce/img/brand/1.png" alt="">
+            </a>
+            <a class="col single-img" href="#">
+                <img class="img-fluid d-block mx-auto" src="~/MainEcommerce/img/brand/2.png" alt="">
+            </a>
+            <a class="col single-img" href="#">
+                <img class="img-fluid d-block mx-auto" src="~/MainEcommerce/img/brand/3.png" alt="">
+            </a>
+            <a class="col single-img" href="#">
+                <img class="img-fluid d-block mx-auto" src="~/MainEcommerce/img/brand/4.png" alt="">
+            </a>
+            <a class="col single-img" href="#">
+                <img class="img-fluid d-block mx-auto" src="~/MainEcommerce/img/brand/5.png" alt="">
+            </a>
         </div>
     </div>
 </section>
@@ -659,5 +771,26 @@
                 alert("Quick view for product ID: " + productId);
             });
         });
+
+        
+        
+
+        $(document).ready(function() {
+            $('.active-top-offers-slider').owlCarousel({
+                navText: [
+                    '<span class="lnr lnr-arrow-left"></span>',
+                    '<span class="lnr lnr-arrow-right"></span>'
+                ],
+                items: 1,
+                autoplay: true,
+                loop: true,
+                nav: true,
+                dots: true,
+              
+            });
+        });
+    
+   
+    
     </script>
 }

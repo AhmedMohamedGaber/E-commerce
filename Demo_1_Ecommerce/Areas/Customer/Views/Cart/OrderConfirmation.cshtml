@@ -1,31 +1,123 @@
-﻿@* @model int
+﻿@model Demo_1_Ecommerce.ViewModels.OrderVM
+
 @{
-    ViewData["Title"] = "OrderConfirmation";
+    Layout = "_Customer";
 }
 
-<h1>OrderConfirmation</h1>
+<!-- Include the confetti library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti/dist/confetti.browser.min.js"></script>
 
-
-<div class="container row">
-    <div class="col-12">
-        <h3>Order Confirmation</h3>
-        <br />
-        <hr />
-        <h2>Your Order Number @Model Has Been Successfully Placed</h2>
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Order Confirmation🎊</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="~/Customer/Home/Index">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="#">Order Confirmation</a>
+                </nav>
+            </div>
+        </div>
     </div>
-</div> *@
-@model int
+</section>
 
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <h3>Order Confirmation</h3>
-            <br />
-            <hr />
-            <h2>Your Order Number @Model Has Been Successfully Placed!</h2>
-            <p>Thank you for your order. We appreciate your business!</p>
-            <p>If you have any questions, feel free to contact us.</p>
-            <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Return to Home</a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <!-- Centered text alignment -->
+            <!-- Manual Play Button -->
+            <button id="playButton" class="btn-info btn-lg mt-3" style="border:none">Play Celebration Sound</button>
+
+            <div class="card shadow-lg border-0 m-4">
+                <div class="card-body text-center">
+                    <h2 class="card-text text-success">Your Order Has Been Successful!🎉🎉🎊</h2>
+                    <p class="mt-4">Thank you for your order. We appreciate your business!🥰</p>
+                    <p>If you have any questions, feel free to contact us.</p>
+                    <a href="~/" class="primary-btn btn-lg mt-3">Return to Home</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    .card {
+        border-radius: 1rem;
+    }
+
+    .card-title {
+        font-size: 2rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Customize your button color */
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+    /* Additional styles for the button */
+    .btn-info {
+        background-color: #17a2b8; /* Bootstrap info color */
+        color: white; /* Text color */
+    }
+
+        .btn-info:hover {
+            background-color: #138496; /* Darker shade on hover */
+        }
+</style>
+
+<!-- Include audio file -->
+<audio id="celebrationSound" src="~/sounds/0924.MP3"></audio>
+
+<script>
+    // Function to trigger the celebration sound
+    function playSound() {
+        var sound = document.getElementById("celebrationSound");
+        sound.currentTime = 0; // Reset to the start
+        sound.play().catch(function (error) {
+            console.log("Sound play failed: " + error); // Log any errors
+        });
+    }
+
+    // Function to trigger confetti effect
+    function launchConfetti() {
+        var end = Date.now() + (5 * 1000); // 5 seconds
+        var colors = ['#bb0000', '#ffffff', '#00bb00', '#0000bb', '#ffff00', '#ff00bb'];
+
+        (function frame() {
+            confetti({
+                particleCount: 7,
+                angle: 90,
+                spread: 45,
+                origin: { x: 0 },
+                colors: colors
+            });
+            confetti({
+                particleCount: 7,
+                angle: 90,
+                spread: 45,
+                origin: { x: 1 },
+                colors: colors
+            });
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+    }
+
+    // Event listener for DOMContentLoaded to play sound and launch confetti
+    document.addEventListener("DOMContentLoaded", function () {
+        playSound(); // Play sound on page load
+        launchConfetti(); // Launch confetti on page load
+    });
+
+    // Event listener for the manual play button
+    document.getElementById("playButton").addEventListener("click", function () {
+        playSound(); // Play sound
+        launchConfetti(); // Launch confetti
+    });
+</script>

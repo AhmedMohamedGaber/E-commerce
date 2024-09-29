@@ -122,7 +122,7 @@ namespace Demo_1_Ecommerce.Areas.Identity.Pages.Account
                     // Check if the user is in the "Admin" role
                     if (await _userManager.IsInRoleAsync(user, "Admin"))
                     {
-                        return RedirectToAction("Index", "Users", new { area = "Admin" }); // Redirect to specific action for Admins
+                        return RedirectToAction("Index", "AdminHome", new { area = "Admin" }); // Redirect to specific action for Admins
                     }
                     return LocalRedirect(returnUrl);
                 }

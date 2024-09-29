@@ -22,6 +22,74 @@ namespace Demo_1_Ecommerce.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Demo_1_Ecommerce.Models.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("Demo_1_Ecommerce.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("img")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("Demo_1_Ecommerce.ViewModels.Category", b =>
                 {
                     b.Property<int>("id")
@@ -59,7 +127,10 @@ namespace Demo_1_Ecommerce.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -138,38 +209,6 @@ namespace Demo_1_Ecommerce.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("OrderHeaders");
-                });
-
-            modelBuilder.Entity("Demo_1_Ecommerce.ViewModels.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("img")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Demo_1_Ecommerce.ViewModels.Review", b =>
@@ -464,6 +503,17 @@ namespace Demo_1_Ecommerce.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
+            modelBuilder.Entity("Demo_1_Ecommerce.Models.Product", b =>
+                {
+                    b.HasOne("Demo_1_Ecommerce.ViewModels.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Demo_1_Ecommerce.ViewModels.OrderDetail", b =>
                 {
                     b.HasOne("Demo_1_Ecommerce.ViewModels.OrderHeader", "OrderHeader")
@@ -472,7 +522,7 @@ namespace Demo_1_Ecommerce.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Demo_1_Ecommerce.ViewModels.Product", "Product")
+                    b.HasOne("Demo_1_Ecommerce.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -494,20 +544,9 @@ namespace Demo_1_Ecommerce.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("Demo_1_Ecommerce.ViewModels.Product", b =>
-                {
-                    b.HasOne("Demo_1_Ecommerce.ViewModels.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("Demo_1_Ecommerce.ViewModels.Review", b =>
                 {
-                    b.HasOne("Demo_1_Ecommerce.ViewModels.Product", "Product")
+                    b.HasOne("Demo_1_Ecommerce.Models.Product", "Product")
                         .WithMany("Reviews")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -526,7 +565,7 @@ namespace Demo_1_Ecommerce.Migrations
 
             modelBuilder.Entity("Demo_1_Ecommerce.ViewModels.ShopingCart", b =>
                 {
-                    b.HasOne("Demo_1_Ecommerce.ViewModels.Product", "Product")
+                    b.HasOne("Demo_1_Ecommerce.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -594,7 +633,7 @@ namespace Demo_1_Ecommerce.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Demo_1_Ecommerce.ViewModels.Product", b =>
+            modelBuilder.Entity("Demo_1_Ecommerce.Models.Product", b =>
                 {
                     b.Navigation("Reviews");
                 });

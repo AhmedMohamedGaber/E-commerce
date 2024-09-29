@@ -1,0 +1,97 @@
+﻿@model Demo_1_Ecommerce.Models.Contact
+@{
+    Layout = "_Customer";
+}
+
+
+
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Contact Page</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="~/Customer/Home/Index">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="~/Customer/Home/contact">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+
+
+<!--================Contact Area =================-->
+<section class="contact_area section_gap_bottom">
+    <div class="container">
+        <div id="mapBox" class="mapBox"
+             data-lat="30.0444"
+             data-lon="31.2357"
+             data-zoom="10"
+             data-info="Cairo, Egypt.">
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-lg-3  ">
+                <div class="contact_info ml-5">
+                    <div class="info_item">
+                        <i class="lnr lnr-home"></i>
+                        <h6>Egypt</h6>
+                        <p>Beni-Suef</p>
+                    </div>
+                    <div class="info_item">
+                        <i class="lnr lnr-phone-handset"></i>
+                        <h6><a href="#">(+20) 01142520292</a></h6>
+                        <p>Sun to Th 9am to 6 pm</p>
+                    </div>
+                    <div class="info_item">
+                        <i class="lnr lnr-envelope"></i>
+                        <h6><a href="#">elhmzawy91@gmail.com</a></h6>
+                        <p>Send us your message anytime!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <h2>Contact Us</h2>
+
+                @if (TempData["Message"] != null)
+                {
+                    <div class="alert alert-success">@TempData["Message"]</div>
+                }
+
+            <form asp-action="Contact" method="post" class="row contact_form" id="contactForm" novalidate="novalidate" >
+                    <div class="col-md-6" >
+                    <div class="form-group" >
+                        <input asp-for="Name" style="border: 1px solid #ffb178" class="form-control" placeholder="Enter your name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    <div class="form-group" >
+                        <input style="border: 1px solid #ffb178" asp-for="Email" class="form-control" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    <div class="form-group" >
+                        <input style="border: 1px solid #ffb178" asp-for="Subject" class="form-control" placeholder="Enter Subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" />
+                            <span asp-validation-for="Subject" class="text-danger"></span>
+                        </div>
+                    <div class="form-group" >
+                        <input style="border: 1px solid #ffb178" asp-for="Phone" class="form-control " placeholder="Enter PhoneNumber (+20xxxxxx)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter PhoneNumber (+20xxxxxx)'" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                    </div>
+                <div class="col-md-6">
+                        <div class="form-group">
+                        <textarea style="border: 1px solid #ffb178 ; width: 379px; height: 251px;" asp-for="Message" class="form-control " rows="1" placeholder="Enter Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'"></textarea>
+                            <span asp-validation-for="Message" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-8 text-right">
+                        <button type="submit" class="primary-btn ">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

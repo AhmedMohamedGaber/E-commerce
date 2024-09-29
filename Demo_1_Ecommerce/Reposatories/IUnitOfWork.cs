@@ -8,6 +8,7 @@ namespace Demo_1_Ecommerce.Reposatories
 {
     public interface IUnitOfWork:IDisposable
     {
+        IContactRepo Contact { get; }
         ICategoryRepo Category { get; }
         IProductRepo Product { get; }
         IShopingCartRepo ShoppingCart { get; }
@@ -16,6 +17,7 @@ namespace Demo_1_Ecommerce.Reposatories
         IOrderDetailRepo OrderDetail { get; }
         IApplicationUserRepo ApplicationUser { get; }
         IReviewRepo Reviews { get; } // Add this line
+       // IProductImageRepo ProductImage { get; } // New line for ProductImage repository
 
         int complete();
     }

@@ -2,7 +2,6 @@
 using Demo_1_Ecommerce;
 using Demo_1_Ecommerce.ViewModels;
 using Demo_1_Ecommerce.Reposatories;
-using Demo_1_Ecommerce.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
@@ -10,7 +9,7 @@ using Stripe;
 namespace Demo_1_Ecommerce.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles =SD.AdminRole)]
+    [Authorize(Roles = SD.AdminRole)]
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -22,46 +21,59 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+
         public IActionResult Index()
         {
-            return View();
-        }
-        [HttpGet]
-        public IActionResult GetData() 
-        {
-            IEnumerable<OrderHeader> orderHeaders;
-            orderHeaders = _unitOfWork.OrderHeader.GetAll(icludeWord: "ApplicationUser");
-            return Json(new {data= orderHeaders});
-        
+            // Fetch all order headers and pass them to the view
+            var orderHeaders = _unitOfWork.OrderHeader.GetAll(icludeWord: "ApplicationUser").ToList();
+            return View(orderHeaders); // Pass the model to the view
         }
 
-        public IActionResult Details(int orderid) 
+        [HttpGet]
+        public IActionResult GetData()
+        {
+            var orderHeaders = _unitOfWork.OrderHeader.GetAll(icludeWord: "ApplicationUser");
+            return Json(new { data = orderHeaders });
+        }
+
+        public IActionResult Details(int orderid)
         {
             OrderVM orderVM = new OrderVM()
             {
-                OrderHeader = _unitOfWork.OrderHeader.GetByID(u=>u.Id == orderid , icludeWord: "ApplicationUser"),
+                OrderHeader = _unitOfWork.OrderHeader.GetByID(u => u.Id == orderid, icludeWord: "ApplicationUser"),
                 OrderDetails = _unitOfWork.OrderDetail.GetAll(x => x.OrderId == orderid, icludeWord: "Product")
             };
+
+            // Ensure the orderVM is not null before returning it
+            if (orderVM.OrderHeader == null)
+            {
+                return NotFound(); // Return a 404 if the order is not found
+            }
+
             return View("Details", orderVM);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateOrderDetails()
         {
             var orderfromdb = _unitOfWork.OrderHeader.GetByID(u => u.Id == OrderVM.OrderHeader.Id);
+            if (orderfromdb == null)
+            {
+                return NotFound(); // Return 404 if the order is not found
+            }
+
             orderfromdb.Name = OrderVM.OrderHeader.Name;
             orderfromdb.Phone = OrderVM.OrderHeader.Phone;
             orderfromdb.Address = OrderVM.OrderHeader.Address;
             orderfromdb.City = OrderVM.OrderHeader.City;
 
-            if (OrderVM.OrderHeader.Carrier != null)
+            if (!string.IsNullOrEmpty(OrderVM.OrderHeader.Carrier))
             {
                 orderfromdb.Carrier = OrderVM.OrderHeader.Carrier;
             }
 
-            if (OrderVM.OrderHeader.TrackingNumber != null)
+            if (!string.IsNullOrEmpty(OrderVM.OrderHeader.TrackingNumber))
             {
                 orderfromdb.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
             }
@@ -69,9 +81,8 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
             _unitOfWork.OrderHeader.update(orderfromdb);
             _unitOfWork.complete();
             TempData["Type"] = "info";
-            TempData["message"] = "Item has Updated Successfully";
+            TempData["message"] = "Item has been updated successfully";
             return RedirectToAction("Details", "Order", new { orderid = orderfromdb.Id });
-
         }
 
         [HttpPost]
@@ -82,7 +93,7 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
             _unitOfWork.complete();
 
             TempData["Type"] = "success";
-            TempData["message"] = "Order Status has Updated Successfully";
+            TempData["message"] = "Order status has been updated successfully";
             return RedirectToAction("Details", "Order", new { orderid = OrderVM.OrderHeader.Id });
         }
 
@@ -91,6 +102,11 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
         public IActionResult StartShip()
         {
             var orderfromdb = _unitOfWork.OrderHeader.GetByID(u => u.Id == OrderVM.OrderHeader.Id);
+            if (orderfromdb == null)
+            {
+                return NotFound(); // Return 404 if the order is not found
+            }
+
             orderfromdb.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
             orderfromdb.Carrier = OrderVM.OrderHeader.Carrier;
             orderfromdb.OrderStatus = SD.Shipped;
@@ -100,7 +116,7 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
             _unitOfWork.complete();
 
             TempData["Type"] = "info";
-            TempData["message"] = "Order has Shipped Successfully";
+            TempData["message"] = "Order has shipped successfully";
             return RedirectToAction("Details", "Order", new { orderid = OrderVM.OrderHeader.Id });
         }
 
@@ -109,6 +125,11 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
         public IActionResult CancelOrder()
         {
             var orderfromdb = _unitOfWork.OrderHeader.GetByID(u => u.Id == OrderVM.OrderHeader.Id);
+            if (orderfromdb == null)
+            {
+                return NotFound(); // Return 404 if the order is not found
+            }
+
             if (orderfromdb.PaymentSatuts == SD.Approve)
             {
                 var option = new RefundCreateOptions
@@ -126,11 +147,11 @@ namespace Demo_1_Ecommerce.Areas.Admin.Controllers
             {
                 _unitOfWork.OrderHeader.updateOrderStates(orderfromdb.Id, SD.Cancelled, SD.Cancelled);
             }
+
             _unitOfWork.complete();
             TempData["Type"] = "info";
-            TempData["message"] = "Order has Cancelled Successfully";
-            return RedirectToAction("index", "Order", new { orderid = OrderVM.OrderHeader.Id });
+            TempData["message"] = "Order has been cancelled successfully";
+            return RedirectToAction("Index", "Order");
         }
-
     }
 }

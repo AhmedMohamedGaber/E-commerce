@@ -119,7 +119,8 @@ namespace Demo_1_Ecommerce.Areas.Customer.Controllers
 
             ShoppingCartVM = shoppingcartVM;
 
-            var domain = "http://localhost:1175/";
+            var domain = $"{Request.Scheme}://{Request.Host}/";
+
             var options = new SessionCreateOptions
             {
                 LineItems = new List<SessionLineItemOptions>(),
@@ -162,6 +163,10 @@ namespace Demo_1_Ecommerce.Areas.Customer.Controllers
         {
             // Retrieve order details
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetByID(u => u.Id == id);
+            if (orderHeader == null)
+            {
+                return NotFound(); // Return a 404 if the order isn't found
+            }
             var service = new SessionService();
             Session session = service.Get(orderHeader.SessionId);
 
@@ -178,9 +183,10 @@ namespace Demo_1_Ecommerce.Areas.Customer.Controllers
             _unitOfWork.ShoppingCart.removeRange(shoppingCarts);
             _unitOfWork.complete();
 
-            // Redirect to the OrderConfirmation route with the id
-            return RedirectToRoute(new { controller = "Cart", action = "OrderConfirmation", id = id });
+            // Return the order confirmation view with the order ID
+            return View("OrderConfirmation");
         }
+
 
 
 
@@ -266,5 +272,38 @@ namespace Demo_1_Ecommerce.Areas.Customer.Controllers
                 return sw.GetStringBuilder().ToString();
             }
         }
+
+
+        [HttpGet]
+        public IActionResult UserOrders()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim == null)
+            {
+                return Unauthorized();
+            }
+
+            // Retrieve all orders placed by the logged-in user
+            var orderHeaders = _unitOfWork.OrderHeader.GetAll(o => o.ApplicationUserId == claim.Value);
+
+            List<OrderVM> userOrders = new List<OrderVM>();
+
+            foreach (var orderHeader in orderHeaders)
+            {
+                // Now get OrderDetails with the included Product
+                var orderDetails = _unitOfWork.OrderDetail.GetAll(d => d.OrderId == orderHeader.Id).ToList();
+
+                userOrders.Add(new OrderVM
+                {
+                    OrderHeader = orderHeader,
+                    OrderDetails = orderDetails
+                });
+            }
+
+            return View(userOrders); // This will use a view to display the list of orders
+        }
+
     }
 }
