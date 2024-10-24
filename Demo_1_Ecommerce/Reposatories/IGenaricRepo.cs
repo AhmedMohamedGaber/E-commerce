@@ -9,9 +9,7 @@ namespace Demo_1_Ecommerce.Reposatories
 {
     public interface IGenaricRepo<T> where T : class
     {
-        /////////////////معني البرامتر ده الجزء الاول ان هو مياخد لمدا اكسبرشن  /////////////
-        ////////بتديله اسم الجدول اللي عايزه  Include معني البرامتر ده الجزء التاني انه لو عايز تضيف جمله //////
-        ///////////////////    AllowNull عادي هي Include  ولو مفيش   /////////////
+       
         IEnumerable<T> GetAll(Expression<Func<T,bool>>? predacate=null , string? icludeWord = null);
 
         T GetByID(Expression<Func<T, bool>>? predacate=null, string? icludeWord = null);
