@@ -19,14 +19,11 @@ namespace Demo_1_Ecommerce.Implementation
         public GenaricRepo(ApplicationDbContext context)
         {
             _context = context;
-            //الجدول بتاعه Context يجيب من ال T يعني لما يعرف ايه نوع ال 
+           
             _dbSet = _context.Set<T>();
         }
 
-        //public GenaricRepo(ApplicationDbContext context)
-        //{
-        //    this.context = context;
-        //}
+      
 
         public void add(T item)
         {
