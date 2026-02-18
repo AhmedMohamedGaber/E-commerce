@@ -1,4 +1,4 @@
-# 🚧 EasyShopper - E-commerce Platform (Under Development)
+#  EasyShopper - E-commerce Platform 
 
 <p align="left">
   <img src="https://github.com/user-attachments/assets/b8b82e7b-f09d-49e5-b576-73a0e9995db9" alt="logo-shopper1" width="250"/>
@@ -7,7 +7,7 @@
 
 [🔗 EasyShopper Live](https://easyshopper.runasp.net/)
 
-⚠️⚠️⚠️ This **E-commerce** project is currently **under development** and construction. It aims to provide a fully functional platform for online shopping, featuring capabilities for browsing products, managing a shopping cart, placing orders, and an admin panel for product management.
+⚠️⚠️⚠️ This **E-commerce** project aims to provide a fully functional platform for online shopping, featuring capabilities for browsing products, managing a shopping cart, placing orders, and an admin panel for product management.
 
 ## ✨🖼️🖼️ Some Images 🌟
 
@@ -25,7 +25,6 @@
 
 
 
-## 🚧 Work in Progress
 
 ### Planned Features
 - **🔒 User Registration & Login**: Secure sign-up and login process.
