@@ -1,15 +1,44 @@
-#  EasyShopper - E-commerce Platform 
+# EasyShopper — E-Commerce Platform
+
+A full-featured online shopping platform built with ASP.NET Core MVC 8.
+
+**[🔗 Live demo](https://easyshopper.runasp.net/)**
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/b8b82e7b-f09d-49e5-b576-73a0e9995db9" alt="logo-shopper1" width="250"/>
-  <img src="https://github.com/user-attachments/assets/b171ea81-4fb1-4f7e-9e60-c95e7bde8a6a" alt="logo-shopper2" width="250"/>
+  <img src="https://github.com/user-attachments/assets/b8b82e7b-f09d-49e5-b576-73a0e9995db9" alt="EasyShopper" width="250"/>
+  <img src="https://github.com/user-attachments/assets/b171ea81-4fb1-4f7e-9e60-c95e7bde8a6a" alt="EasyShopper" width="250"/>
 </p>
 
-[🔗 EasyShopper Live](https://easyshopper.runasp.net/)
+## Overview
 
-⚠️⚠️⚠️ This **E-commerce** project aims to provide a fully functional platform for online shopping, featuring capabilities for browsing products, managing a shopping cart, placing orders, and an admin panel for product management.
+EasyShopper provides a complete online shopping experience: browsing products across categories, managing a shopping cart, placing and tracking orders, and an admin panel for managing the catalog.
 
-## ✨🖼️🖼️ Some Images 🌟
+## Features
+
+- **🔒 User registration & login** — secure sign-up and login with ASP.NET Core Identity and role management
+- **🛍️ Product browsing** — a wide variety of products across multiple categories
+- **🔍 Search** — find products by name, category, or description
+- **🛒 Shopping cart** — add products with adjustable quantities
+- **📜 Order history** — view past orders and track their status
+- **📱 Responsive design** — optimized for desktop and mobile
+
+### Admin panel
+
+- **📊 Dashboard** — control over the product catalog, orders, and categories
+- **➕ Product management** — add, edit, and delete products
+- **📁 Category management** — organize products into categories
+- **📦 Order management** — track and update order statuses
+
+## Tech stack
+
+- **Backend:** ASP.NET Core MVC 8, C#, Entity Framework Core
+- **Database:** Microsoft SQL Server
+- **Frontend:** HTML5, CSS3, Bootstrap, JavaScript
+- **Authentication:** ASP.NET Core Identity (users and roles)
+- **APIs:** Custom APIs for product and category data
+- **Docs:** Swagger UI for API documentation and testing
+
+## Screenshots
 
 <p align="center">
    <img src="https://github.com/user-attachments/assets/c3914508-c4c1-484e-a623-04c6eace1192" alt="Screenshot 8" style="max-width: 80%; height: auto;"/>
@@ -21,43 +50,3 @@
    <img src="https://github.com/user-attachments/assets/9e9c62be-6213-4399-af8e-e30e85c0ba79" alt="Screenshot 2" style="max-width: 80%; height: auto;"/>
    <img src="https://github.com/user-attachments/assets/c56bf932-4155-49ca-a888-7b5bfca10e8e" alt="Screenshot 1" style="max-width: 80%; height: auto;"/>
 </p>
-
-
-
-
-
-### Planned Features
-- **🔒 User Registration & Login**: Secure sign-up and login process.
-- **🛍️ Product Browsing**: A wide variety of products across multiple categories.
-- **🔍 Search Functionality**: Easy product searches by name, category, or description.
-- **🛒 Shopping Cart**: Adding products to the cart with adjustable quantities.
-- **📜 Order History**: Viewing past orders and tracking their statuses.
-- **📱 Responsive Design**: Optimization for desktop and mobile devices.
-
-### Upcoming Admin Features
-- **📊 Admin Dashboard**: Control over the product catalog, orders, and categories.
-- **➕ Product Management**: Add, edit, and delete products with ease.
-- **📁 Category Management**: Organize products into categories.
-- **📦 Order Management**: Track and update order statuses.
-
-## 🔧 Technologies Used
-- **Backend**: ASP.NET Core MVC 8, C#, Entity Framework Core
-- **Database**: Microsoft SQL Server
-- **Frontend**: HTML5, CSS3, Bootstrap, JavaScript
-- **Authentication**: Identity Framework (user and role management)
-- **APIs**: Custom APIs for product and category data
-- **Swagger**: Integrated Swagger UI for API documentation and testing
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Visual Studio 2022 or later
-- .NET SDK 8.0 or later
-- Microsoft SQL Server
-
-### Installation
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/AhmedMohamedGaber/E-commerce.git
-   cd E-commerce
